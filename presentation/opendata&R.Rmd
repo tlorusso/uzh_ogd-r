@@ -1,0 +1,124 @@
+---
+title: "Opendata & R"
+subtitle: ""
+author: "Thomas Lo Russo"
+date: "Universität Zürich </br> `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: lib/zh.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+
+# Titel 
+
+### Untertitel
+
+- Punkt
+- Punkt
+
+---
+
+
+#Karte
+```{r,message=FALSE,warning=FALSE}
+if (!require(pacman)) install.packages(pacman)
+
+pacman::p_load(sf,tidyverse,ggrepel,tmap,tmaptools,statR)
+
+library(tidyverse)
+library(purrr)
+
+# get json via webservice
+data <- jsonlite::fromJSON("http://www.wahlen.zh.ch/abstimmungen/2016_09_25/viewer_download.php")
+
+# transform nested list into dataframe
+data <- data %>% 
+  map_dfr(bind_rows) %>% 
+  unnest(VORLAGEN)
+
+# get shapefile from here
+# http://www.web.statistik.zh.ch/cms_basiskarten/gen_Gemeinde_2018/GEN_A4_GEMEINDEN_SEEN_2018_F.zip
+
+#Gemeindeshapes
+gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE)
+
+```
+
+---
+
+.pull-left[
+
+```{r,message=FALSE,warning=FALSE, dpi=96}
+
+#join municipality-infos to points
+mapdata <- left_join(gemeinden,data, by=c("BFS")) 
+
+map <- ggplot(mapdata %>% filter(!is.na(JA_PROZENT)))+
+  geom_sf(aes(fill=as.numeric(JA_PROZENT)))+
+  facet_wrap(~VORLAGE_ID)
+```
+]
+
+--
+
+.pull-right[
+
+```{r}
+map
+```
+
+]
+
+---
+
+.pull-left[
+
+```{r,message=FALSE,warning=FALSE, dpi=96, echo=FALSE}
+
+#Labels - Kurzbezeichnung 
+data$VORLAGE_NAME <- factor(data$VORLAGE_NAME, labels = c("Grüne Wirtschaft", "AHV Plus", "NDG", "Bezahlbare Kinderbetreuung"))
+
+mapdata <- left_join(gemeinden,data, by=c("BFS"))
+
+mapnew <- ggplot(mapdata %>% filter(!is.na(JA_PROZENT)))+
+              geom_sf(aes(fill=as.numeric(JA_PROZENT)),color="white")+
+              facet_wrap(~VORLAGE_NAME,labeller = label_value)+
+              coord_sf(datum = NA)+
+              labs(fill="Ja (in %)")+
+              theme_void()+
+              scale_fill_gradient2(midpoint=50)+
+              guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
+
+mapnew
+
+```
+]
+
+--
+
+.pull-right[
+
+```{r}
+mapnew 
+
+```
+
+]
+
+
+```{r}
+
+
+
+
+
+
+
+```
+
+
