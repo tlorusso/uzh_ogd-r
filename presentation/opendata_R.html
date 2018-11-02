@@ -85,21 +85,38 @@ map
 
 .pull-left[
 
-![](opendata_R_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+```r
+#Labels - Kurzbezeichnung 
+data$VORLAGE_NAME &lt;- factor(data$VORLAGE_NAME, labels = c("Grüne Wirtschaft", "AHV Plus", "NDG", "Bezahlbare Kinderbetreuung"))
+
+mapdata &lt;- left_join(gemeinden,data, by=c("BFS"))
+
+mapnew &lt;- ggplot(mapdata %&gt;% filter(!is.na(JA_PROZENT)))+
+              geom_sf(aes(fill=as.numeric(JA_PROZENT)),color="white")+
+              facet_wrap(~VORLAGE_NAME,labeller = label_value)+
+              coord_sf(datum = NA)+
+              labs(fill="Ja (in %)")+
+              theme_void()+
+              scale_fill_gradient2(midpoint=50)+
+              guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
+```
 ]
 
 --
 
 .pull-right[
 
-
-```r
-mapnew 
-```
-
 ![](opendata_R_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 
 ]
+
+---
+
+
+```r
+# DT::datatable(mapdata)
+```
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
@@ -141,7 +158,7 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
 (function () {
   var script = document.createElement('script');
   script.type = 'text/javascript';
-  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
   if (location.protocol !== 'file:' && /^https?:/.test(script.src))
     script.src  = script.src.replace(/^https?:/, '');
   document.getElementsByTagName('head')[0].appendChild(script);

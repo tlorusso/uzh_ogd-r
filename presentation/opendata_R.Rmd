@@ -53,7 +53,7 @@ gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE
 
 .pull-left[
 
-```{r,message=FALSE,warning=FALSE, dpi=96}
+```{r,message=FALSE,warning=FALSE}
 
 #join municipality-infos to points
 mapdata <- left_join(gemeinden,data, by=c("BFS")) 
@@ -68,7 +68,7 @@ map <- ggplot(mapdata %>% filter(!is.na(JA_PROZENT)))+
 
 .pull-right[
 
-```{r}
+```{r, dpi=120}
 map
 ```
 
@@ -78,7 +78,7 @@ map
 
 .pull-left[
 
-```{r,message=FALSE,warning=FALSE, dpi=96, echo=FALSE}
+```{r,message=FALSE,warning=FALSE, dpi=125}
 
 #Labels - Kurzbezeichnung 
 data$VORLAGE_NAME <- factor(data$VORLAGE_NAME, labels = c("Grüne Wirtschaft", "AHV Plus", "NDG", "Bezahlbare Kinderbetreuung"))
@@ -93,9 +93,6 @@ mapnew <- ggplot(mapdata %>% filter(!is.na(JA_PROZENT)))+
               theme_void()+
               scale_fill_gradient2(midpoint=50)+
               guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
-
-mapnew
-
 ```
 ]
 
@@ -103,21 +100,18 @@ mapnew
 
 .pull-right[
 
-```{r}
+```{r,echo=FALSE, dpi=120}
 mapnew 
 
 ```
 
 ]
 
+---
 
 ```{r}
 
-
-
-
-
-
+# DT::datatable(mapdata)
 
 ```
 
