@@ -13,7 +13,6 @@ output:
       ratio: "16:9"
 ---
 
-
 # Titel 
 
 ### Untertitel
@@ -23,8 +22,7 @@ output:
 
 ---
 
-
-#Karte
+#Daten in R lesen
 ```{r,message=FALSE,warning=FALSE}
 if (!require(pacman)) install.packages(pacman)
 
@@ -41,12 +39,22 @@ data <- data %>%
   map_dfr(bind_rows) %>% 
   unnest(VORLAGEN)
 
-# get shapefile from here
-# http://www.web.statistik.zh.ch/cms_basiskarten/gen_Gemeinde_2018/GEN_A4_GEMEINDEN_SEEN_2018_F.zip
+```
 
-#Gemeindeshapes
-gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE)
+---
 
+```{r,message=FALSE,warning=FALSE, message=FALSE,dpi=125, fig.height=2}
+# install.packages("ggridges")
+library(ggridges)
+
+data$VORLAGE_NAME <- factor(data$VORLAGE_NAME, labels = c("Grüne Wirtschaft", "AHV Plus", "NDG", "Bezahlbare Kinderbetreuung"))
+
+ggplot(data,aes(as.numeric(JA_PROZENT),VORLAGE_NAME))+
+    geom_density_ridges(scale = 0.8, fill="steelblue") + 
+  theme_ridges() +
+    scale_y_discrete(expand = c(0.01, 0)) + 
+  scale_x_continuous(limits = c(0, 100),breaks=seq(0,100,25))+
+  labs(x="Ja-Anteil (%)", y="Vorlage")
 ```
 
 ---
@@ -54,6 +62,12 @@ gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE
 .pull-left[
 
 ```{r,message=FALSE,warning=FALSE}
+
+# get shapefile from here
+# http://www.web.statistik.zh.ch/cms_basiskarten/gen_Gemeinde_2018/GEN_A4_GEMEINDEN_SEEN_2018_F.zip
+
+#Gemeindeshapes
+gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE)
 
 #join municipality-infos to points
 mapdata <- left_join(gemeinden,data, by=c("BFS")) 
@@ -81,8 +95,6 @@ map
 ```{r,message=FALSE,warning=FALSE, dpi=125}
 
 #Labels - Kurzbezeichnung 
-data$VORLAGE_NAME <- factor(data$VORLAGE_NAME, labels = c("Grüne Wirtschaft", "AHV Plus", "NDG", "Bezahlbare Kinderbetreuung"))
-
 mapdata <- left_join(gemeinden,data, by=c("BFS"))
 
 mapnew <- ggplot(mapdata %>% filter(!is.na(JA_PROZENT)))+

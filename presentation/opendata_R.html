@@ -12,10 +12,9 @@ class: center, middle, inverse, title-slide
 
 # Opendata &amp; R
 ### Thomas Lo Russo
-### Universität Zürich </br> 2018-11-02
+### Universität Zürich </br> 2018-11-05
 
 ---
-
 
 
 # Titel 
@@ -27,8 +26,7 @@ class: center, middle, inverse, title-slide
 
 ---
 
-
-#Karte
+#Daten in R lesen
 
 ```r
 if (!require(pacman)) install.packages(pacman)
@@ -45,13 +43,26 @@ data &lt;- jsonlite::fromJSON("http://www.wahlen.zh.ch/abstimmungen/2016_09_25/v
 data &lt;- data %&gt;% 
   map_dfr(bind_rows) %&gt;% 
   unnest(VORLAGEN)
-
-# get shapefile from here
-# http://www.web.statistik.zh.ch/cms_basiskarten/gen_Gemeinde_2018/GEN_A4_GEMEINDEN_SEEN_2018_F.zip
-
-#Gemeindeshapes
-gemeinden&lt;- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE)
 ```
+
+---
+
+
+```r
+# install.packages("ggridges")
+library(ggridges)
+
+data$VORLAGE_NAME &lt;- factor(data$VORLAGE_NAME, labels = c("Grüne Wirtschaft", "AHV Plus", "NDG", "Bezahlbare Kinderbetreuung"))
+
+ggplot(data,aes(as.numeric(JA_PROZENT),VORLAGE_NAME))+
+    geom_density_ridges(scale = 0.8, fill="steelblue") + 
+  theme_ridges() +
+    scale_y_discrete(expand = c(0.01, 0)) + 
+  scale_x_continuous(limits = c(0, 100),breaks=seq(0,100,25))+
+  labs(x="Ja-Anteil (%)", y="Vorlage")
+```
+
+![](opendata_R_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -59,6 +70,12 @@ gemeinden&lt;- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FA
 
 
 ```r
+# get shapefile from here
+# http://www.web.statistik.zh.ch/cms_basiskarten/gen_Gemeinde_2018/GEN_A4_GEMEINDEN_SEEN_2018_F.zip
+
+#Gemeindeshapes
+gemeinden&lt;- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE)
+
 #join municipality-infos to points
 mapdata &lt;- left_join(gemeinden,data, by=c("BFS")) 
 
@@ -77,7 +94,7 @@ map &lt;- ggplot(mapdata %&gt;% filter(!is.na(JA_PROZENT)))+
 map
 ```
 
-![](opendata_R_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+![](opendata_R_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -88,8 +105,6 @@ map
 
 ```r
 #Labels - Kurzbezeichnung 
-data$VORLAGE_NAME &lt;- factor(data$VORLAGE_NAME, labels = c("Grüne Wirtschaft", "AHV Plus", "NDG", "Bezahlbare Kinderbetreuung"))
-
 mapdata &lt;- left_join(gemeinden,data, by=c("BFS"))
 
 mapnew &lt;- ggplot(mapdata %&gt;% filter(!is.na(JA_PROZENT)))+
@@ -107,7 +122,7 @@ mapnew &lt;- ggplot(mapdata %&gt;% filter(!is.na(JA_PROZENT)))+
 
 .pull-right[
 
-![](opendata_R_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+![](opendata_R_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -158,7 +173,7 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
 (function () {
   var script = document.createElement('script');
   script.type = 'text/javascript';
-  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
   if (location.protocol !== 'file:' && /^https?:/.test(script.src))
     script.src  = script.src.replace(/^https?:/, '');
   document.getElementsByTagName('head')[0].appendChild(script);
