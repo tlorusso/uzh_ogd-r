@@ -22,6 +22,32 @@ output:
 
 ---
 
+# Trust in Government Information
+
+How to ... trust ? 
+
+- Reliability 
+- Timeliness
+- Traceablity
+
+## OPEN GOVERNMENT DATA
+
+---
+class: inverse, center, middle
+
+# What is R ?
+
+<img src="rknife.png" alt="drawing" width="50%"/>
+
+---
+class: inverse centre middle
+
+# R & Open Data 
+
+### Showcase : Real Time Data-Service of popular vote results in the canton Zurich
+
+---
+
 #Daten in R lesen
 ```{r,message=FALSE,warning=FALSE}
 if (!require(pacman)) install.packages(pacman)
@@ -43,7 +69,7 @@ data <- data %>%
 
 ---
 
-```{r,message=FALSE,warning=FALSE, message=FALSE,dpi=125, fig.height=2}
+```{r,message=FALSE,warning=FALSE, message=FALSE, dpi=100, fig.height=2}
 # install.packages("ggridges")
 library(ggridges)
 
@@ -126,5 +152,21 @@ mapnew
 # DT::datatable(mapdata)
 
 ```
+
+---
+class: inverse, center, middle
+
+#Open Data & R 
+
+A journey to reproducibility paradise
+
+---
+
+When it comes to reproducibilty , the best thing that can happen to you : open data on your research subject. 
+
+
+
+
+
 
 
