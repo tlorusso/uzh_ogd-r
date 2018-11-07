@@ -13,12 +13,20 @@ output:
       ratio: "16:9"
 ---
 
-# Titel 
 
-### Untertitel
+# Opendata & R
 
-- Punkt
-- Punkt
+- __R__ (and similar open software) lowers the barriers and costs to make data analysis __repetable and reproducible__.
+
+- __Open data__ ensures that everyone can access the same information for free (ideally, in a well structured manner)
+
+### __Democratization of data & tools for analysis__
+
+When doing research, it's not alway possible to use open data (sensitive data, privacy / security)
+
+But when possible : unbeatable DUO (reproducibility paradise)!
+
+A Combination that allows collaboration on unprecedentend scale  
 
 ---
 
@@ -148,25 +156,82 @@ mapnew
 ---
 
 ```{r}
+# pacman::p_load(units,sf,osmdata)
+# 
+# # getbb("Kanton Zürich")
+# 
+# q0 <- opq(bbox = c(8.35768, 47.15944,8.984941,47.694472))
+# 
+# # extract boundaries of the Canton of Zurich via wikidati URI
+# q1 <- add_osm_feature(opq = q0, key = 'wikidata', value = "Q11943")
+# # retrieve the data
+# res1 <- osmdata_sf(q1)
+# #get geometry
+# zh <- st_geometry(res1$osm_multipolygons)
+# 
+# # extract Bars & Pubs
+# q6 <- add_osm_feature(opq = q0, key = 'amenity', value = "kindergarten")
+# bars <- osmdata_sf(q6)
+# bars_zh<- st_geometry(bars$osm_points)
 
-# DT::datatable(mapdata)
+# plot the bars in the canton of Zurich
+
+# tmap::qtm(bars_zh)
+
+# mapview::mapview(bars_zh)
 
 ```
 
 ---
 class: inverse, center, middle
 
-#Open Data & R 
+.pull-left[
 
-A journey to reproducibility paradise
+```{r}
+# https://opendata.swiss/de/dataset/altersquotient
+ageq <- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_95.csv", sep=";", encoding="UTF8") %>%
+  select(BFS = `ï..BFS_NR`, INDIKATOR_VALUE,INDIKATOR_JAHR) %>% 
+  dplyr::filter(INDIKATOR_JAHR==2017 & BFS != 0)
+
+plotdata <- ageq %>% left_join(data %>% filter(VORLAGE_NAME=="Bezahlbare Kinderbetreuung"), by=c("BFS"))
+
+
+library(echarts4r)
+
+plotdata %>% 
+  echarts4r::e_charts(NAME) %>% 
+  echarts4r::e_charts(as.numeric(JA_PROZENT), INDIKATOR_VALUE)
+
+
+
+ggplot(plotdata, aes(as.numeric(JA_PROZENT), INDIKATOR_VALUE))+
+      geom_point()+
+      theme_minimal()
+
+```
+]
+
+--
+
+.pull-right[
+```{r}
+# https://opendata.swiss/de/dataset/nrw-wahleranteil-sp
+sp <- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_124.csv", sep=";", encoding="UTF8") %>%
+  select(BFS = `ï..BFS_NR`, INDIKATOR_VALUE,INDIKATOR_JAHR) %>% 
+  dplyr::filter(INDIKATOR_JAHR==2015 & BFS != 0)
+
+plotdata <-sp %>% 
+  left_join(data %>% filter(VORLAGE_NAME=="Bezahlbare Kinderbetreuung"), by=c("BFS"))
+
+ggplot(plotdata, aes(as.numeric(JA_PROZENT), INDIKATOR_VALUE))+
+      geom_point()+
+      theme_minimal()+
+      geom_smooth()
+
+```
+]
 
 ---
-
-When it comes to reproducibilty , the best thing that can happen to you : open data on your research subject. 
-
-
-
-
 
 
 

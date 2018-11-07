@@ -12,17 +12,25 @@ class: center, middle, inverse, title-slide
 
 # Opendata &amp; R
 ### Thomas Lo Russo
-### Universität Zürich </br> 2018-11-06
+### Universität Zürich </br> 2018-11-07
 
 ---
 
 
-# Titel 
 
-### Untertitel
+# Opendata &amp; R
 
-- Punkt
-- Punkt
+- __R__ (and similar open software) lowers the barriers and costs to make data analysis __repetable and reproducible__.
+
+- __Open data__ ensures that everyone can access the same information for free (ideally, in a well structured manner)
+
+### __Democratization of data &amp; tools for analysis__
+
+When doing research, it's not alway possible to use open data (sensitive data, privacy / security)
+
+But when possible : unbeatable DUO (reproducibility paradise)!
+
+A Combination that allows collaboration on unprecedentend scale  
 
 ---
 
@@ -156,19 +164,92 @@ mapnew &lt;- ggplot(mapdata %&gt;% filter(!is.na(JA_PROZENT)))+
 
 
 ```r
-# DT::datatable(mapdata)
+# pacman::p_load(units,sf,osmdata)
+# 
+# # getbb("Kanton Zürich")
+# 
+# q0 &lt;- opq(bbox = c(8.35768, 47.15944,8.984941,47.694472))
+# 
+# # extract boundaries of the Canton of Zurich via wikidati URI
+# q1 &lt;- add_osm_feature(opq = q0, key = 'wikidata', value = "Q11943")
+# # retrieve the data
+# res1 &lt;- osmdata_sf(q1)
+# #get geometry
+# zh &lt;- st_geometry(res1$osm_multipolygons)
+# 
+# # extract Bars &amp; Pubs
+# q6 &lt;- add_osm_feature(opq = q0, key = 'amenity', value = "kindergarten")
+# bars &lt;- osmdata_sf(q6)
+# bars_zh&lt;- st_geometry(bars$osm_points)
+
+# plot the bars in the canton of Zurich
+
+# tmap::qtm(bars_zh)
+
+# mapview::mapview(bars_zh)
 ```
 
 ---
 class: inverse, center, middle
 
-#Open Data &amp; R 
+.pull-left[
 
-A journey to reproducibility paradise
+
+```r
+# https://opendata.swiss/de/dataset/altersquotient
+ageq &lt;- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_95.csv", sep=";", encoding="UTF8") %&gt;%
+  select(BFS = `ï..BFS_NR`, INDIKATOR_VALUE,INDIKATOR_JAHR) %&gt;% 
+  dplyr::filter(INDIKATOR_JAHR==2017 &amp; BFS != 0)
+
+plotdata &lt;- ageq %&gt;% left_join(data %&gt;% filter(VORLAGE_NAME=="Bezahlbare Kinderbetreuung"), by=c("BFS"))
+
+ggplot(plotdata, aes(as.numeric(JA_PROZENT), INDIKATOR_VALUE))+
+      geom_point()+
+      theme_minimal()
+```
+
+```
+## Warning: Removed 2 rows containing missing values (geom_point).
+```
+
+![](opendata_R_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+]
+
+--
+
+.pull-right[
+
+```r
+# https://opendata.swiss/de/dataset/nrw-wahleranteil-sp
+sp &lt;- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_124.csv", sep=";", encoding="UTF8") %&gt;%
+  select(BFS = `ï..BFS_NR`, INDIKATOR_VALUE,INDIKATOR_JAHR) %&gt;% 
+  dplyr::filter(INDIKATOR_JAHR==2015 &amp; BFS != 0)
+
+plotdata &lt;-sp %&gt;% 
+  left_join(data %&gt;% filter(VORLAGE_NAME=="Bezahlbare Kinderbetreuung"), by=c("BFS"))
+
+ggplot(plotdata, aes(as.numeric(JA_PROZENT), INDIKATOR_VALUE))+
+      geom_point()+
+      theme_minimal()+
+      geom_smooth()
+```
+
+```
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+```
+## Warning: Removed 2 rows containing non-finite values (stat_smooth).
+```
+
+```
+## Warning: Removed 2 rows containing missing values (geom_point).
+```
+
+![](opendata_R_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+]
 
 ---
-
-When it comes to reproducibilty , the best thing that can happen to you : open data on your research subject.
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
