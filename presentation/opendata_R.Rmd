@@ -190,17 +190,23 @@ class: inverse, center, middle
 ```{r}
 # https://opendata.swiss/de/dataset/altersquotient
 ageq <- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_95.csv", sep=";", encoding="UTF8") %>%
-  select(BFS = `ï..BFS_NR`, INDIKATOR_VALUE,INDIKATOR_JAHR) %>% 
+  select(BFS = `ï..BFS_NR`, INDIKATOR_VALUE,INDIKATOR_JAHR,GEBIET_NAME) %>% 
   dplyr::filter(INDIKATOR_JAHR==2017 & BFS != 0)
 
-plotdata <- ageq %>% left_join(data %>% filter(VORLAGE_NAME=="Bezahlbare Kinderbetreuung"), by=c("BFS"))
+plotdata <- ageq %>% 
+            left_join(data %>% filter(VORLAGE_NAME=="Bezahlbare Kinderbetreuung"), by=c("BFS")) %>% 
+            mutate_at(vars(JA_PROZENT,INDIKATOR_VALUE),as.numeric) %>% 
+            as.data.frame()
 
 
 library(echarts4r)
+library(tidyverse)
+
 
 plotdata %>% 
-  echarts4r::e_charts(NAME) %>% 
-  echarts4r::e_charts(as.numeric(JA_PROZENT), INDIKATOR_VALUE)
+  echarts4r::e_charts(GEBIET_NAME) %>% 
+  echarts4r::e_charts(JA_PROZENT, INDIKATOR_VALUE)
+
 
 
 
