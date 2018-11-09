@@ -12,7 +12,7 @@ class: center, middle, inverse, title-slide
 
 # Opendata &amp; R
 ### Thomas Lo Russo
-### Universität Zürich </br> 2018-11-07
+### Universität Zürich </br> 2018-11-09
 
 ---
 
@@ -20,17 +20,19 @@ class: center, middle, inverse, title-slide
 
 # Opendata &amp; R
 
-- __R__ (and similar open software) lowers the barriers and costs to make data analysis __repetable and reproducible__.
+- __R__ (and similar open source software) lowers the barriers and costs to make data analysis __repetable and reproducible__.
 
 - __Open data__ ensures that everyone can access the same information for free (ideally, in a well structured manner)
 
+--
+
 ### __Democratization of data &amp; tools for analysis__
 
-When doing research, it's not alway possible to use open data (sensitive data, privacy / security)
+It is not alway possible to use open data, not on everything (sensitive data, privacy / security)
 
 But when possible : unbeatable DUO (reproducibility paradise)!
 
-A Combination that allows collaboration on unprecedentend scale  
+A combination that allows collaboration on unprecedentend scale  
 
 ---
 
@@ -65,10 +67,10 @@ class: inverse centre middle
 ```r
 if (!require(pacman)) install.packages(pacman)
 
-pacman::p_load(sf,tidyverse,ggrepel,tmap,tmaptools,statR)
+pacman::p_load(sf,tidyverse,ggrepel,statR)
 
 library(tidyverse)
-library(purrr)
+# library(purrr)
 
 # get json via webservice
 data &lt;- jsonlite::fromJSON("http://www.wahlen.zh.ch/abstimmungen/2016_09_25/viewer_download.php")
@@ -84,19 +86,52 @@ data &lt;- data %&gt;%
 
 ```r
 # install.packages("ggridges")
-library(ggridges)
-
 data$VORLAGE_NAME &lt;- factor(data$VORLAGE_NAME, labels = c("Grüne Wirtschaft", "AHV Plus", "NDG", "Bezahlbare Kinderbetreuung"))
 
-ggplot(data,aes(as.numeric(JA_PROZENT),VORLAGE_NAME))+
-    geom_density_ridges(scale = 0.8, fill="steelblue") + 
-  theme_ridges() +
-    scale_y_discrete(expand = c(0.01, 0)) + 
-  scale_x_continuous(limits = c(0, 100),breaks=seq(0,100,25))+
-  labs(x="Ja-Anteil (%)", y="Vorlage")
+data &lt;-data %&gt;% mutate_at(vars(JA_STIMMEN_ABSOLUT,NEIN_STIMMEN_ABSOLUT,JA_PROZENT,STIMMBETEILIGUNG),as.numeric)
+
+#aggregiere auf Gemeindeebene
+data &lt;-data %&gt;% 
+  group_by(BFS,VORLAGE_NAME) %&gt;% 
+  summarize(ja_anteil=round(sum(JA_STIMMEN_ABSOLUT,na.rm=T)/sum(JA_STIMMEN_ABSOLUT+NEIN_STIMMEN_ABSOLUT,na.rm=T)*100,1))
 ```
 
-![](opendata_R_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+---
+
+
+```r
+library(ggridges)
+```
+
+```
+## Warning: package 'ggridges' was built under R version 3.4.4
+```
+
+```
+## 
+## Attaching package: 'ggridges'
+```
+
+```
+## The following object is masked from 'package:ggplot2':
+## 
+##     scale_discrete_manual
+```
+
+```r
+ggplot(data,aes(ja_anteil,VORLAGE_NAME))+
+    geom_density_ridges(scale = 0.8, fill="steelblue") + 
+    theme_ridges() +
+    scale_y_discrete(expand = c(0.01, 0)) + 
+    scale_x_continuous(limits = c(0, 100),breaks=seq(0,100,25))+
+    labs(x="Ja-Anteil (%)", y="Vorlage")
+```
+
+```
+## Picking joint bandwidth of 1.45
+```
+
+![](opendata_R_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -111,11 +146,11 @@ ggplot(data,aes(as.numeric(JA_PROZENT),VORLAGE_NAME))+
 gemeinden&lt;- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE)
 
 #join municipality-infos to points
-mapdata &lt;- left_join(gemeinden,data, by=c("BFS")) 
+mapdata &lt;- left_join(data,gemeinden, by=c("BFS")) 
 
-map &lt;- ggplot(mapdata %&gt;% filter(!is.na(JA_PROZENT)))+
-  geom_sf(aes(fill=as.numeric(JA_PROZENT)))+
-  facet_wrap(~VORLAGE_ID)
+map &lt;- ggplot(mapdata)+
+  geom_sf(aes(fill=ja_anteil))+
+  facet_wrap(~VORLAGE_NAME)
 ```
 ]
 
@@ -128,7 +163,7 @@ map &lt;- ggplot(mapdata %&gt;% filter(!is.na(JA_PROZENT)))+
 map
 ```
 
-![](opendata_R_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+![](opendata_R_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -139,11 +174,12 @@ map
 
 ```r
 #Labels - Kurzbezeichnung 
-mapdata &lt;- left_join(gemeinden,data, by=c("BFS"))
+mapdata &lt;- inner_join(gemeinden,data, by=c("BFS"))
 
-mapnew &lt;- ggplot(mapdata %&gt;% filter(!is.na(JA_PROZENT)))+
-              geom_sf(aes(fill=as.numeric(JA_PROZENT)),color="white")+
-              facet_wrap(~VORLAGE_NAME,labeller = label_value)+
+
+mapnew &lt;- ggplot(mapdata)+
+              geom_sf(aes(fill=ja_anteil),color="white")+
+              facet_wrap(~VORLAGE_NAME)+
               coord_sf(datum = NA)+
               labs(fill="Ja (in %)")+
               theme_void()+
@@ -156,9 +192,112 @@ mapnew &lt;- ggplot(mapdata %&gt;% filter(!is.na(JA_PROZENT)))+
 
 .pull-right[
 
-![](opendata_R_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+![](opendata_R_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
 
 ]
+
+---
+
+
+```r
+# https://opendata.swiss/de/dataset/bevolkerung-pers
+bev &lt;- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_133.csv", sep=";", encoding="UTF8") %&gt;%
+  select(BFS = `ï..BFS_NR`, einwohner=INDIKATOR_VALUE,INDIKATOR_JAHR,GEBIET_NAME) %&gt;% 
+  dplyr::filter(INDIKATOR_JAHR==2017 &amp; BFS != 0)
+
+# https://opendata.swiss/de/dataset/nrw-wahleranteil-sp
+sp &lt;- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_124.csv", sep=";", encoding="UTF8") %&gt;%
+  select(BFS = `ï..BFS_NR`, sp_anteil=INDIKATOR_VALUE,INDIKATOR_JAHR) %&gt;% 
+  dplyr::filter(INDIKATOR_JAHR==2015 &amp; BFS != 0)
+
+# join
+plotdata &lt;- data %&gt;% 
+            filter(VORLAGE_NAME=="Bezahlbare Kinderbetreuung") %&gt;% 
+            left_join(sp, by=c("BFS")) %&gt;% 
+            left_join(bev, by=c("BFS")) %&gt;% 
+            mutate_at(vars(sp_anteil,einwohner),as.numeric) %&gt;% 
+            as.data.frame()
+```
+
+---
+
+.pull-left[
+
+```r
+library(statR)
+
+plot &lt;- ggplot(plotdata, aes(sp_anteil,ja_anteil, size=einwohner/1000))+
+            geom_point(colour="steelblue",alpha=0.8)+
+            theme_stat()+
+            guides(fill="FALSE")+
+            labs(title="Bezahlbare Kinderbetreuung",
+                 subtitle="Zustimmung zur VI bezahlbare Kinderbetreuung vs SP-Wähleranteil (NRW 2015)")
+```
+]
+
+--
+
+.pull-right[
+
+```r
+plot
+```
+
+![](opendata_R_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+]
+
+---
+
+.pull-left[
+
+```r
+# library(echarts4r)
+# 
+# plot &lt;- plotdata %&gt;% 
+#   e_charts(ja_anteil) %&gt;% 
+#   e_scatter(sp_anteil,einwohner, scale="/10000+10") %&gt;% 
+#   e_visual_map(einwohner) %&gt;% # scale color
+#   e_legend(FALSE) %&gt;% 
+#   e_lm(sp_anteil~ja_anteil)
+```
+]
+
+--
+
+.pull-right[
+
+```r
+# plot
+```
+]
+
+---
+
+
+```r
+# plot3 &lt;-plotdata %&gt;% 
+#   e_charts(ja_anteil) %&gt;% 
+#   e_scatter(sp_anteil,einwohner, scale="/10000+10", bind = GEBIET_NAME) %&gt;% 
+#   e_visual_map(einwohner) %&gt;% # scale color
+#   e_lm(sp_anteil~ja_anteil) %&gt;%
+#   e_legend(FALSE) %&gt;% 
+#   # e_tooltip(formatter = htmlwidgets::JS("function(params){ return('&lt;strong&gt;' + params.name +'&lt;/strong&gt;&lt;br /&gt; Ja-Anteil: ' +params.value[0] +'&lt;br /&gt;SP: ' + params.value[1])}"))
+# # %&gt;%
+#   e_toolbox_feature(feature = "saveAsImage",title="Bild speichern") %&gt;%
+#   e_toolbox_feature(feature = "dataView",title="Daten", lang="") %&gt;%
+#   e_title("Zustimmung zur VI bezahlbare Kinderbetreuung &amp; SP-Wähleranteil","SP Wähleranteil bei den Nationalratswahlen 2015") %&gt;% 
+#   e_tooltip(formatter = htmlwidgets::JS("function(params){ return('wt: ' + params.value[0] + '&lt;br /&gt;mpg: ' + params.value[1])}"))
+```
+
+
+---
+
+
+
+```r
+#change proj- to do!
+mapview::mapview(mapdata)
+```
 
 ---
 
@@ -188,68 +327,6 @@ mapnew &lt;- ggplot(mapdata %&gt;% filter(!is.na(JA_PROZENT)))+
 
 # mapview::mapview(bars_zh)
 ```
-
----
-class: inverse, center, middle
-
-.pull-left[
-
-
-```r
-# https://opendata.swiss/de/dataset/altersquotient
-ageq &lt;- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_95.csv", sep=";", encoding="UTF8") %&gt;%
-  select(BFS = `ï..BFS_NR`, INDIKATOR_VALUE,INDIKATOR_JAHR) %&gt;% 
-  dplyr::filter(INDIKATOR_JAHR==2017 &amp; BFS != 0)
-
-plotdata &lt;- ageq %&gt;% left_join(data %&gt;% filter(VORLAGE_NAME=="Bezahlbare Kinderbetreuung"), by=c("BFS"))
-
-ggplot(plotdata, aes(as.numeric(JA_PROZENT), INDIKATOR_VALUE))+
-      geom_point()+
-      theme_minimal()
-```
-
-```
-## Warning: Removed 2 rows containing missing values (geom_point).
-```
-
-![](opendata_R_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
-]
-
---
-
-.pull-right[
-
-```r
-# https://opendata.swiss/de/dataset/nrw-wahleranteil-sp
-sp &lt;- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_124.csv", sep=";", encoding="UTF8") %&gt;%
-  select(BFS = `ï..BFS_NR`, INDIKATOR_VALUE,INDIKATOR_JAHR) %&gt;% 
-  dplyr::filter(INDIKATOR_JAHR==2015 &amp; BFS != 0)
-
-plotdata &lt;-sp %&gt;% 
-  left_join(data %&gt;% filter(VORLAGE_NAME=="Bezahlbare Kinderbetreuung"), by=c("BFS"))
-
-ggplot(plotdata, aes(as.numeric(JA_PROZENT), INDIKATOR_VALUE))+
-      geom_point()+
-      theme_minimal()+
-      geom_smooth()
-```
-
-```
-## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
-```
-
-```
-## Warning: Removed 2 rows containing non-finite values (stat_smooth).
-```
-
-```
-## Warning: Removed 2 rows containing missing values (geom_point).
-```
-
-![](opendata_R_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
-]
-
----
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
@@ -291,7 +368,7 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
 (function () {
   var script = document.createElement('script');
   script.type = 'text/javascript';
-  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
   if (location.protocol !== 'file:' && /^https?:/.test(script.src))
     script.src  = script.src.replace(/^https?:/, '');
   document.getElementsByTagName('head')[0].appendChild(script);

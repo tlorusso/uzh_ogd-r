@@ -16,17 +16,19 @@ output:
 
 # Opendata & R
 
-- __R__ (and similar open software) lowers the barriers and costs to make data analysis __repetable and reproducible__.
+- __R__ (and similar open source software) lowers the barriers and costs to make data analysis __repetable and reproducible__.
 
 - __Open data__ ensures that everyone can access the same information for free (ideally, in a well structured manner)
 
+--
+
 ### __Democratization of data & tools for analysis__
 
-When doing research, it's not alway possible to use open data (sensitive data, privacy / security)
+It is not alway possible to use open data, not on everything (sensitive data, privacy / security)
 
 But when possible : unbeatable DUO (reproducibility paradise)!
 
-A Combination that allows collaboration on unprecedentend scale  
+A combination that allows collaboration on unprecedentend scale  
 
 ---
 
@@ -60,7 +62,7 @@ class: inverse centre middle
 ```{r,message=FALSE,warning=FALSE}
 if (!require(pacman)) install.packages(pacman)
 
-pacman::p_load(sf,tidyverse,ggrepel,tmap,tmaptools,statR)
+pacman::p_load(sf,tidyverse,ggrepel,statR)
 
 library(tidyverse)
 # library(purrr)
@@ -79,8 +81,6 @@ data <- data %>%
 
 ```{r,message=FALSE,warning=FALSE, message=FALSE, dpi=100, fig.height=2}
 # install.packages("ggridges")
-library(ggridges)
-
 data$VORLAGE_NAME <- factor(data$VORLAGE_NAME, labels = c("Grüne Wirtschaft", "AHV Plus", "NDG", "Bezahlbare Kinderbetreuung"))
 
 data <-data %>% mutate_at(vars(JA_STIMMEN_ABSOLUT,NEIN_STIMMEN_ABSOLUT,JA_PROZENT,STIMMBETEILIGUNG),as.numeric)
@@ -88,14 +88,20 @@ data <-data %>% mutate_at(vars(JA_STIMMEN_ABSOLUT,NEIN_STIMMEN_ABSOLUT,JA_PROZEN
 #aggregiere auf Gemeindeebene
 data <-data %>% 
   group_by(BFS,VORLAGE_NAME) %>% 
-  summarize(ja_anteil=sum(JA_STIMMEN_ABSOLUT,na.rm=T)/sum(JA_STIMMEN_ABSOLUT+NEIN_STIMMEN_ABSOLUT,na.rm=T)*100)
+  summarize(ja_anteil=round(sum(JA_STIMMEN_ABSOLUT,na.rm=T)/sum(JA_STIMMEN_ABSOLUT+NEIN_STIMMEN_ABSOLUT,na.rm=T)*100,1))
+```
 
-ggplot(data,aes(as.numeric(ja_anteil),VORLAGE_NAME))+
+---
+
+```{r}
+library(ggridges)
+
+ggplot(data,aes(ja_anteil,VORLAGE_NAME))+
     geom_density_ridges(scale = 0.8, fill="steelblue") + 
-  theme_ridges() +
+    theme_ridges() +
     scale_y_discrete(expand = c(0.01, 0)) + 
-  scale_x_continuous(limits = c(0, 100),breaks=seq(0,100,25))+
-  labs(x="Ja-Anteil (%)", y="Vorlage")
+    scale_x_continuous(limits = c(0, 100),breaks=seq(0,100,25))+
+    labs(x="Ja-Anteil (%)", y="Vorlage")
 ```
 
 ---
@@ -111,11 +117,12 @@ ggplot(data,aes(as.numeric(ja_anteil),VORLAGE_NAME))+
 gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE)
 
 #join municipality-infos to points
-mapdata <- left_join(gemeinden,data, by=c("BFS")) 
+mapdata <- left_join(data,gemeinden, by=c("BFS")) 
 
-map <- ggplot(mapdata %>% filter(!is.na(JA_PROZENT)))+
-  geom_sf(aes(fill=as.numeric(JA_PROZENT)))+
-  facet_wrap(~VORLAGE_ID)
+map <- ggplot(mapdata)+
+  geom_sf(aes(fill=ja_anteil))+
+  facet_wrap(~VORLAGE_NAME)
+
 ```
 ]
 
@@ -136,11 +143,12 @@ map
 ```{r,message=FALSE,warning=FALSE, dpi=125}
 
 #Labels - Kurzbezeichnung 
-mapdata <- left_join(gemeinden,data, by=c("BFS"))
+mapdata <- inner_join(gemeinden,data, by=c("BFS"))
 
-mapnew <- ggplot(mapdata %>% filter(!is.na(JA_PROZENT)))+
-              geom_sf(aes(fill=as.numeric(JA_PROZENT)),color="white")+
-              facet_wrap(~VORLAGE_NAME,labeller = label_value)+
+
+mapnew <- ggplot(mapdata)+
+              geom_sf(aes(fill=ja_anteil),color="white")+
+              facet_wrap(~VORLAGE_NAME)+
               coord_sf(datum = NA)+
               labs(fill="Ja (in %)")+
               theme_void()+
@@ -155,10 +163,111 @@ mapnew <- ggplot(mapdata %>% filter(!is.na(JA_PROZENT)))+
 
 ```{r,echo=FALSE, dpi=120}
 mapnew 
-
 ```
 
 ]
+
+---
+
+```{r}
+# https://opendata.swiss/de/dataset/bevolkerung-pers
+bev <- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_133.csv", sep=";", encoding="UTF8") %>%
+  select(BFS = `ï..BFS_NR`, einwohner=INDIKATOR_VALUE,INDIKATOR_JAHR,GEBIET_NAME) %>% 
+  dplyr::filter(INDIKATOR_JAHR==2017 & BFS != 0)
+
+# https://opendata.swiss/de/dataset/nrw-wahleranteil-sp
+sp <- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_124.csv", sep=";", encoding="UTF8") %>%
+  select(BFS = `ï..BFS_NR`, sp_anteil=INDIKATOR_VALUE,INDIKATOR_JAHR) %>% 
+  dplyr::filter(INDIKATOR_JAHR==2015 & BFS != 0)
+
+# join
+plotdata <- data %>% 
+            filter(VORLAGE_NAME=="Bezahlbare Kinderbetreuung") %>% 
+            left_join(sp, by=c("BFS")) %>% 
+            left_join(bev, by=c("BFS")) %>% 
+            mutate_at(vars(sp_anteil,einwohner),as.numeric) %>% 
+            as.data.frame()
+
+
+```
+
+---
+
+.pull-left[
+```{r,warnings=FALSE}
+
+library(statR)
+
+plot <- ggplot(plotdata, aes(sp_anteil,ja_anteil, size=einwohner/1000))+
+            geom_point(colour="steelblue",alpha=0.8)+
+            theme_stat()+
+            guides(fill="FALSE")+
+            labs(title="Bezahlbare Kinderbetreuung",
+                 subtitle="Zustimmung zur VI bezahlbare Kinderbetreuung vs SP-Wähleranteil (NRW 2015)")
+
+```
+]
+
+--
+
+.pull-right[
+```{r,warnings=FALSE, dpi=120}
+plot
+```
+]
+
+---
+
+.pull-left[
+```{r,warnings=FALSE}
+# library(echarts4r)
+# 
+# plot <- plotdata %>% 
+#   e_charts(ja_anteil) %>% 
+#   e_scatter(sp_anteil,einwohner, scale="/10000+10") %>% 
+#   e_visual_map(einwohner) %>% # scale color
+#   e_legend(FALSE) %>% 
+#   e_lm(sp_anteil~ja_anteil)
+
+
+```
+]
+
+--
+
+.pull-right[
+```{r,warnings=FALSE, dpi=120}
+# plot
+```
+]
+
+---
+
+```{r,warnings=FALSE}
+
+# plot3 <-plotdata %>% 
+#   e_charts(ja_anteil) %>% 
+#   e_scatter(sp_anteil,einwohner, scale="/10000+10", bind = GEBIET_NAME) %>% 
+#   e_visual_map(einwohner) %>% # scale color
+#   e_lm(sp_anteil~ja_anteil) %>%
+#   e_legend(FALSE) %>% 
+#   # e_tooltip(formatter = htmlwidgets::JS("function(params){ return('<strong>' + params.name +'</strong><br /> Ja-Anteil: ' +params.value[0] +'<br />SP: ' + params.value[1])}"))
+# # %>%
+#   e_toolbox_feature(feature = "saveAsImage",title="Bild speichern") %>%
+#   e_toolbox_feature(feature = "dataView",title="Daten", lang="") %>%
+#   e_title("Zustimmung zur VI bezahlbare Kinderbetreuung & SP-Wähleranteil","SP Wähleranteil bei den Nationalratswahlen 2015") %>% 
+#   e_tooltip(formatter = htmlwidgets::JS("function(params){ return('wt: ' + params.value[0] + '<br />mpg: ' + params.value[1])}"))
+
+```
+
+
+---
+
+
+```{r}
+#change proj- to do!
+mapview::mapview(mapdata)
+```
 
 ---
 
@@ -188,69 +297,5 @@ mapnew
 # mapview::mapview(bars_zh)
 
 ```
-
----
-class: inverse, center, middle
-
-.pull-left[
-
-```{r}
-# https://opendata.swiss/de/dataset/bevolkerung-pers
-bev <- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_133.csv", sep=";", encoding="UTF8") %>%
-  select(BFS = `ï..BFS_NR`, einwohner=INDIKATOR_VALUE,INDIKATOR_JAHR,GEBIET_NAME) %>% 
-  dplyr::filter(INDIKATOR_JAHR==2017 & BFS != 0)
-
-# https://opendata.swiss/de/dataset/nrw-wahleranteil-sp
-sp <- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_124.csv", sep=";", encoding="UTF8") %>%
-  select(BFS = `ï..BFS_NR`, sp_anteil=INDIKATOR_VALUE,INDIKATOR_JAHR) %>% 
-  dplyr::filter(INDIKATOR_JAHR==2015 & BFS != 0)
-
-# join
-plotdata <- bev %>% 
-            left_join(sp, by=c("BFS")) %>% 
-            left_join(data %>% filter(VORLAGE_NAME=="Bezahlbare Kinderbetreuung"), by=c("BFS")) %>% 
-            mutate_at(vars(sp_anteil,einwohner),as.numeric) %>% 
-            as.data.frame()
-
-
-library(echarts4r)
-
-
-plotdata %>% 
-  e_charts(ja_anteil) %>% 
-  e_scatter(sp_anteil,sp_anteil) %>% 
-  e_visual_map(einwohner) %>% # scale color
-  e_legend(FALSE) %>% 
-  e_title("Titel")
-
-
-
-
-
-
-```
-]
-
---
-
-.pull-right[
-```{r}
-# https://opendata.swiss/de/dataset/nrw-wahleranteil-sp
-sp <- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_124.csv", sep=";", encoding="UTF8") %>%
-  select(BFS = `ï..BFS_NR`, INDIKATOR_VALUE,INDIKATOR_JAHR) %>% 
-  dplyr::filter(INDIKATOR_JAHR==2015 & BFS != 0)
-
-
-
-ggplot(plotdata, aes(as.numeric(JA_PROZENT), INDIKATOR_VALUE))+
-      geom_point()+
-      theme_minimal()+
-      geom_smooth()
-
-```
-]
-
----
-
 
 
