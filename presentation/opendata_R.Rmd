@@ -48,6 +48,14 @@ class: inverse, center, middle
 <img src="rknife.png" alt="drawing" width="50%"/>
 
 ---
+# What is R ?
+
+- Programming language
+- open source
+- runs on multiple platforms
+- 
+
+---
 class: inverse centre middle
 
 # R & Open Data 
@@ -63,7 +71,7 @@ if (!require(pacman)) install.packages(pacman)
 pacman::p_load(sf,tidyverse,ggrepel,tmap,tmaptools,statR)
 
 library(tidyverse)
-library(purrr)
+# library(purrr)
 
 # get json via webservice
 data <- jsonlite::fromJSON("http://www.wahlen.zh.ch/abstimmungen/2016_09_25/viewer_download.php")
