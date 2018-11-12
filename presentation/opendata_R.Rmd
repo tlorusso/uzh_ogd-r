@@ -26,9 +26,9 @@ output:
 
 It is not alway possible to use open data, not on everything (sensitive data, privacy / security)
 
-But when possible : unbeatable DUO (reproducibility paradise)!
+But when possible : unbeatable DUO (reproducibility paradise)
 
-A combination that allows collaboration on unprecedentend scale  
+A combination that allows collaboration on unprecedentend scale!
 
 ---
 
@@ -55,7 +55,8 @@ class: inverse, center, middle
 - Programming language
 - open source
 - runs on multiple platforms
-- 
+
+The R package - ecosystem comprehends a myriad of packages ranging from data-manipulation, data-collection, modelling , GIS, visualization, 
 
 ---
 class: inverse centre middle
@@ -162,6 +163,7 @@ mapnew <- ggplot(mapdata)+
               theme_void()+
               scale_fill_gradient2(midpoint=50)+
               guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
+
 ```
 ]
 
@@ -170,7 +172,7 @@ mapnew <- ggplot(mapdata)+
 .pull-right[
 
 ```{r,echo=FALSE, dpi=120}
-mapnew 
+mapnew
 ```
 
 ]
@@ -195,8 +197,6 @@ plotdata <- data %>%
             left_join(bev, by=c("BFS")) %>% 
             mutate_at(vars(sp_anteil,einwohner),as.numeric) %>% 
             as.data.frame()
-
-
 ```
 
 ---
@@ -225,85 +225,23 @@ plot
 ]
 
 ---
+# Building a Web-App with R
 
-.pull-left[
-```{r,warnings=FALSE}
-# library(echarts4r)
-# 
-# plot <- plotdata %>% 
-#   e_charts(ja_anteil) %>% 
-#   e_scatter(sp_anteil,einwohner, scale="/10000+10") %>% 
-#   e_visual_map(einwohner) %>% # scale color
-#   e_legend(FALSE) %>% 
-#   e_lm(sp_anteil~ja_anteil)
+With Shiny, we can build a R powered Web-Application nurtured by the data on opendata.swiss. 
 
-
-```
-]
-
+- The app is automatically updated, as soon as a new vote date is available, via [CKAN API](https://handbook.opendata.swiss/support/api.html)
 --
+- No need to update by hand __before__ votation sundays
+--
+- Real time data stream __on__ votation sundays
 
-.pull-right[
-```{r,warnings=FALSE, dpi=120}
-# plot
-```
-]
 
----
-
-```{r,warnings=FALSE}
-
-# plot3 <-plotdata %>% 
-#   e_charts(ja_anteil) %>% 
-#   e_scatter(sp_anteil,einwohner, scale="/10000+10", bind = GEBIET_NAME) %>% 
-#   e_visual_map(einwohner) %>% # scale color
-#   e_lm(sp_anteil~ja_anteil) %>%
-#   e_legend(FALSE) %>% 
-#   # e_tooltip(formatter = htmlwidgets::JS("function(params){ return('<strong>' + params.name +'</strong><br /> Ja-Anteil: ' +params.value[0] +'<br />SP: ' + params.value[1])}"))
-# # %>%
-#   e_toolbox_feature(feature = "saveAsImage",title="Bild speichern") %>%
-#   e_toolbox_feature(feature = "dataView",title="Daten", lang="") %>%
-#   e_title("Zustimmung zur VI bezahlbare Kinderbetreuung & SP-Wähleranteil","SP Wähleranteil bei den Nationalratswahlen 2015") %>% 
-#   e_tooltip(formatter = htmlwidgets::JS("function(params){ return('wt: ' + params.value[0] + '<br />mpg: ' + params.value[1])}"))
-
-```
-
+<img src="shiny.jpg" alt="drawing" width="20%"/>
 
 ---
 
 
-```{r}
-#change proj- to do!
-mapview::mapview(mapdata)
-```
 
----
 
-```{r}
-# pacman::p_load(units,sf,osmdata)
-# 
-# # getbb("Kanton Zürich")
-# 
-# q0 <- opq(bbox = c(8.35768, 47.15944,8.984941,47.694472))
-# 
-# # extract boundaries of the Canton of Zurich via wikidati URI
-# q1 <- add_osm_feature(opq = q0, key = 'wikidata', value = "Q11943")
-# # retrieve the data
-# res1 <- osmdata_sf(q1)
-# #get geometry
-# zh <- st_geometry(res1$osm_multipolygons)
-# 
-# # extract Bars & Pubs
-# q6 <- add_osm_feature(opq = q0, key = 'amenity', value = "kindergarten")
-# bars <- osmdata_sf(q6)
-# bars_zh<- st_geometry(bars$osm_points)
-
-# plot the bars in the canton of Zurich
-
-# tmap::qtm(bars_zh)
-
-# mapview::mapview(bars_zh)
-
-```
 
 

@@ -12,7 +12,7 @@ class: center, middle, inverse, title-slide
 
 # Opendata &amp; R
 ### Thomas Lo Russo
-### Universität Zürich </br> 2018-11-09
+### Universität Zürich </br> 2018-11-12
 
 ---
 
@@ -30,9 +30,9 @@ class: center, middle, inverse, title-slide
 
 It is not alway possible to use open data, not on everything (sensitive data, privacy / security)
 
-But when possible : unbeatable DUO (reproducibility paradise)!
+But when possible : unbeatable DUO (reproducibility paradise)
 
-A combination that allows collaboration on unprecedentend scale  
+A combination that allows collaboration on unprecedentend scale!
 
 ---
 
@@ -52,6 +52,15 @@ class: inverse, center, middle
 # What is R ?
 
 &lt;img src="rknife.png" alt="drawing" width="50%"/&gt;
+
+---
+# What is R ?
+
+- Programming language
+- open source
+- runs on multiple platforms
+
+The R package - ecosystem comprehends a myriad of packages ranging from data-manipulation, data-collection, modelling , GIS, visualization, 
 
 ---
 class: inverse centre middle
@@ -104,7 +113,7 @@ library(ggridges)
 ```
 
 ```
-## Warning: package 'ggridges' was built under R version 3.4.4
+## Warning: package 'ggridges' was built under R version 3.5.1
 ```
 
 ```
@@ -247,86 +256,16 @@ plot
 ]
 
 ---
+# Building a Web-App with R
 
-.pull-left[
+With Shiny, we can build a R powered Web-Application nurtured by the data on opendata.swiss. 
 
-```r
-# library(echarts4r)
-# 
-# plot &lt;- plotdata %&gt;% 
-#   e_charts(ja_anteil) %&gt;% 
-#   e_scatter(sp_anteil,einwohner, scale="/10000+10") %&gt;% 
-#   e_visual_map(einwohner) %&gt;% # scale color
-#   e_legend(FALSE) %&gt;% 
-#   e_lm(sp_anteil~ja_anteil)
-```
-]
-
---
-
-.pull-right[
-
-```r
-# plot
-```
-]
-
----
+- The app is automatically updated, as soon as a new vote date is available [CKAN API](https://handbook.opendata.swiss/support/api.html)
+- No need to update by hand before votation days!
+- Real time data stream on votation sundays
 
 
-```r
-# plot3 &lt;-plotdata %&gt;% 
-#   e_charts(ja_anteil) %&gt;% 
-#   e_scatter(sp_anteil,einwohner, scale="/10000+10", bind = GEBIET_NAME) %&gt;% 
-#   e_visual_map(einwohner) %&gt;% # scale color
-#   e_lm(sp_anteil~ja_anteil) %&gt;%
-#   e_legend(FALSE) %&gt;% 
-#   # e_tooltip(formatter = htmlwidgets::JS("function(params){ return('&lt;strong&gt;' + params.name +'&lt;/strong&gt;&lt;br /&gt; Ja-Anteil: ' +params.value[0] +'&lt;br /&gt;SP: ' + params.value[1])}"))
-# # %&gt;%
-#   e_toolbox_feature(feature = "saveAsImage",title="Bild speichern") %&gt;%
-#   e_toolbox_feature(feature = "dataView",title="Daten", lang="") %&gt;%
-#   e_title("Zustimmung zur VI bezahlbare Kinderbetreuung &amp; SP-Wähleranteil","SP Wähleranteil bei den Nationalratswahlen 2015") %&gt;% 
-#   e_tooltip(formatter = htmlwidgets::JS("function(params){ return('wt: ' + params.value[0] + '&lt;br /&gt;mpg: ' + params.value[1])}"))
-```
-
-
----
-
-
-
-```r
-#change proj- to do!
-mapview::mapview(mapdata)
-```
-
----
-
-
-```r
-# pacman::p_load(units,sf,osmdata)
-# 
-# # getbb("Kanton Zürich")
-# 
-# q0 &lt;- opq(bbox = c(8.35768, 47.15944,8.984941,47.694472))
-# 
-# # extract boundaries of the Canton of Zurich via wikidati URI
-# q1 &lt;- add_osm_feature(opq = q0, key = 'wikidata', value = "Q11943")
-# # retrieve the data
-# res1 &lt;- osmdata_sf(q1)
-# #get geometry
-# zh &lt;- st_geometry(res1$osm_multipolygons)
-# 
-# # extract Bars &amp; Pubs
-# q6 &lt;- add_osm_feature(opq = q0, key = 'amenity', value = "kindergarten")
-# bars &lt;- osmdata_sf(q6)
-# bars_zh&lt;- st_geometry(bars$osm_points)
-
-# plot the bars in the canton of Zurich
-
-# tmap::qtm(bars_zh)
-
-# mapview::mapview(bars_zh)
-```
+&lt;img src="shiny.jpg" alt="drawing" width="20%"/&gt;
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
@@ -368,7 +307,7 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
 (function () {
   var script = document.createElement('script');
   script.type = 'text/javascript';
-  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
   if (location.protocol !== 'file:' && /^https?:/.test(script.src))
     script.src  = script.src.replace(/^https?:/, '');
   document.getElementsByTagName('head')[0].appendChild(script);
