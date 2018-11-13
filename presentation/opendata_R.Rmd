@@ -71,7 +71,7 @@ class: inverse centre middle
 ```{r,message=FALSE,warning=FALSE}
 if (!require(pacman)) install.packages(pacman)
 
-pacman::p_load(sf,tidyverse,ggrepel,statR)
+pacman::p_load(sf,tidyverse,statR)
 
 library(tidyverse)
 # library(purrr)

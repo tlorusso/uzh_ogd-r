@@ -1,0 +1,11 @@
+---
+title: "About this App"
+output: html_document
+---
+
+This Shiny application allows to compare the Social Welfare rates of municipalities, districts and regions in the Canton of Zurich (Switzerland).
+
+The social welfare rate was calculated as the proportion of welfare recipients of the total population in %. 
+
+Source: Statistical Office Canton of Zurich, [opendata.swiss](https://opendata.swiss/de/dataset/sozialhilfequote)
+

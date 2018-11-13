@@ -1,10 +1,10 @@
-library(shiny)
-library(jsonlite)
-library(tidyverse)
-library(sf)
-library(Cairo)
+# shiny app
+# voting results canton zurich
+library(pacman)
 
-options(shiny.usecairo=T)
+pacman::p_load(jsonlite, tidyverse,sf,mapview, leaflet, shiny, shinythemes)
+
+# options(shiny.usecairo=T)
 
 urls <- jsonlite::fromJSON("https://opendata.swiss/api/3/action/package_show?id=echtzeitdaten-am-abstimmungstag")
 
@@ -16,66 +16,105 @@ gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE
 
    
    # Sidebar with a slider input for number of bins 
-   ui <- fluidPage(
-     theme = "bootstrap.css",
-     tags$header(list(tags$style("img {display:inline-block;background-repeat:no-repeat;position:relative;left:10px;z-index:3;}"),
-                      tags$a(href="http://www.zh.ch", tags$img(src="lionwhite.png", height="90%"), target="_blank")),
-                 tags$style("header {background-color: #009ee0 ;padding-top:10px;height:60px}")),
-     # Application title
-     titlePanel("OGD Demo"),
+ui <-   fluidPage(
+  tags$header(tags$style(".navbar-header { font-family: Arial Black;}"),
+              tags$style(" .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 { font-family: Arial Black;}")),
+  navbarPage(theme = shinytheme("cerulean"),
+                   title=div(img(src="lionwhitemini.png"), "ZH Vote"), 
+                   
+                   tabPanel("Vote date", 
+                            fluidRow(
+                              column(4, selectizeInput('urlselect', 
+                                                       label= 'Vote date',
+                                                       choices = datevote, 
+                                                       selected = "2016_09_25"))),
+                            
+                            DT::dataTableOutput("table")
+                            
+                            ),
+    
+     tabPanel("Map", 
+              
+     # Application titl
      "This shiny-App is a Demo nurtred by the real-time data service on popular votes of the canton Zurich.",
      br(),
      # Show a plot of the generated distribution
      fluidRow(
-       column(4, selectizeInput('urlselect', 
-                                label= 'Vote date',
-                                choices = datevote, 
-                                selected = "2016_09_25"))),
+       column(4, selectInput('topicselect', 
+                                label= 'select votation',""))),
     
       # Show a plot of the generated distribution
       mainPanel(
-        plotOutput("plot", width = "100%")
+        # plotOutput("plot", width = "100%")
+        leafletOutput("mapview")
       )
-   )
+   )))
+
 
 # Define server logic required to draw a histogram
-server <- function(input, output) {
+server <- function(input, output,session) {
 
-
-data <- reactive({jsonlite::fromJSON(paste0( "http://www.wahlen.zh.ch/abstimmungen/",input$urlselect,"/viewer_download.php"))})
+  
+  data <- reactive({jsonlite::fromJSON(paste0( "http://www.wahlen.zh.ch/abstimmungen/",input$urlselect,"/viewer_download.php"))})
 
 # transform nested list into dataframe
   datanew <- reactive({
     
               nd <- data() %>%
-              map_dfr(bind_rows) %>%
-              unnest(VORLAGEN) 
+              purrr::map_dfr(bind_rows) %>%
+              tidyr::unnest(VORLAGEN) 
               
               nd <- nd %>% 
-                mutate_at(vars(JA_STIMMEN_ABSOLUT,NEIN_STIMMEN_ABSOLUT,JA_PROZENT,STIMMBETEILIGUNG),as.numeric) %>% 
-                group_by(BFS,VORLAGE_NAME) %>% 
-                summarize(ja_anteil=round(sum(JA_STIMMEN_ABSOLUT,na.rm=T)/sum(JA_STIMMEN_ABSOLUT+NEIN_STIMMEN_ABSOLUT,na.rm=T)*100,1))
+                dplyr::mutate_at(vars(JA_STIMMEN_ABSOLUT,NEIN_STIMMEN_ABSOLUT,JA_PROZENT,STIMMBETEILIGUNG),as.numeric) %>% 
+                dplyr::group_by(BFS,VORLAGE_NAME) %>% 
+                dplyr::summarize(ja_anteil=round(sum(JA_STIMMEN_ABSOLUT,na.rm=T)/sum(JA_STIMMEN_ABSOLUT+NEIN_STIMMEN_ABSOLUT,na.rm=T)*100,1))
               
     
-         inner_join(gemeinden,nd, by=c("BFS"))
+              dplyr::inner_join(gemeinden,nd, by=c("BFS"))
     
             })
-
   
- output$plot <- renderPlot({
-
-   p<-ggplot(datanew())+
-       geom_sf(aes(fill=ja_anteil),color="white")+
-       facet_wrap(~VORLAGE_NAME)+
-       coord_sf(datum = NA)+
-       labs(fill="Ja (in %)")+
-       theme_void()+
-       scale_fill_gradient2(midpoint=50)+
-       guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
-   
-   print(p)
+  # data for the leaflet map, filtered by the selected votation
+mapdata <- reactive({
+  
+    datanew() %>% dplyr::filter(VORLAGE_NAME==input$topicselect)
     
-  }, height = 800)
+  })
+  
+  
+# votations on the selected vote
+ vorlagen <- reactive({ unique(datanew()$VORLAGE_NAME) })
+ 
+
+ observe({
+   updateSelectInput(session, "topicselect",
+                     choices = vorlagen())})
+
+ 
+
+ output$mapview <-  renderLeaflet({
+
+
+   m1 <-mapview::mapview(mapdata(), zcol = "ja_anteil", at = seq(0, 100, 5), legend = TRUE)
+   
+   m1@map
+
+
+  })
+ 
+
+  output$table <- DT::renderDataTable(DT::datatable({
+                         
+                        datanew() %>% 
+                        mutate(Auszählstand=ifelse(ja_anteil>0, "ausgezählt","Nicht ausgezählt")) %>% 
+                        group_by(VORLAGE_NAME,Auszählstand) %>% 
+                        summarize(`Gebiete`=n()) %>% 
+                        st_set_geometry(NULL) %>% 
+                        dplyr::rename(Vorlage=VORLAGE_NAME)
+
+      
+                         }, options = list(paging = FALSE))
+                )
   
   
 }

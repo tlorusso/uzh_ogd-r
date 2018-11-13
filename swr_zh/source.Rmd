@@ -1,0 +1,7 @@
+---
+title: "Source"
+output: html_document
+---
+
+Source: Statistical Office Canton of Zurich, [opendata.swiss](https://opendata.swiss/de/dataset/sozialhilfequote)
+
