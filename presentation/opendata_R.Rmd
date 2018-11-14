@@ -12,9 +12,12 @@ output:
       countIncrementalSlides: false
       ratio: "16:9"
 ---
+class: middle center
 
 
+#### [open.zh.ch/](open.zh.ch/)
 
+#### [statistik.zh.ch](statistik.zh.ch/)
 
 ---
 
