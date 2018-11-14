@@ -14,6 +14,24 @@ output:
 ---
 
 
+
+
+---
+
+- Getting data is a critical step in most research / data related tasks
+- sometimes one of the most difficult and time-consuming steps
+- even when data is accessible not granted that is is easy to find
+- frustrating format variabilities & compatibility issues
+
+
+-> R & Opendata to help! 
+
+
+https://nceas.github.io/oss-lessons/open-data-in-r/open-data-in-R.html
+
+---
+
+
 # Opendata & R
 
 - __R__ (and similar open source software) lowers the barriers and costs to make data analysis __repetable and reproducible__.
@@ -24,7 +42,7 @@ output:
 
 ### __Democratization of data & tools for analysis__
 
-It is not alway possible to use open data, not on everything (sensitive data, privacy / security)
+It is not alway possible to use open data (sensitive data : privacy / security)
 
 But when possible : unbeatable DUO (reproducibility paradise)
 
@@ -32,7 +50,7 @@ A combination that allows collaboration on unprecedentend scale!
 
 ---
 
-# Trust in Government Information
+# What is open (government) data?
 
 How to ... trust ? 
 
@@ -56,7 +74,18 @@ class: inverse, center, middle
 - open source
 - runs on multiple platforms
 
-The R package - ecosystem comprehends a myriad of packages ranging from data-manipulation, data-collection, modelling , GIS, visualization, 
+
+The R package - ecosystem comprehends a myriad of packages that extend the functionality of the R language. From data-manipulation, collection and visualization to modelling, GIS and domain specific appliactions
+
+
+[Field Guide to the R Ecosystem](https://fg2re.sellorm.com/whatisr.html)
+
+
+???
+
+R is an open-source programming language. It is run either interactively or by an interpreter from commands saved in text files, or “scripts”. This makes it similar to programming languages like Python or Ruby.
+
+However, R differs from those languages in its primary use case. Though R is becoming increasingly general-purpose, it was originally conceived as an open-source replacement for the statistical programming language ‘S’. As such, R is first and foremost a statistical programming language and, as a result, is widely used in academic data science and statistics programmes around the world.
 
 ---
 class: inverse centre middle
@@ -123,7 +152,7 @@ ggplot(data,aes(ja_anteil,VORLAGE_NAME))+
 # http://www.web.statistik.zh.ch/cms_basiskarten/gen_Gemeinde_2018/GEN_A4_GEMEINDEN_SEEN_2018_F.zip
 
 #Gemeindeshapes
-gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE)
+gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE) %>% select(BFS,BEZIRK,REGION)
 
 #join municipality-infos to points
 mapdata <- left_join(data,gemeinden, by=c("BFS")) 
@@ -153,7 +182,6 @@ map
 
 #Labels - Kurzbezeichnung 
 mapdata <- inner_join(gemeinden,data, by=c("BFS"))
-
 
 mapnew <- ggplot(mapdata)+
               geom_sf(aes(fill=ja_anteil),color="white")+
@@ -191,12 +219,20 @@ sp <- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_124.csv",
   dplyr::filter(INDIKATOR_JAHR==2015 & BFS != 0)
 
 # join
-plotdata <- data %>% 
+plotdata <- mapdata %>% 
             filter(VORLAGE_NAME=="Bezahlbare Kinderbetreuung") %>% 
             left_join(sp, by=c("BFS")) %>% 
             left_join(bev, by=c("BFS")) %>% 
-            mutate_at(vars(sp_anteil,einwohner),as.numeric) %>% 
-            as.data.frame()
+            mutate_at(vars(sp_anteil,einwohner),as.numeric) 
+```
+
+---
+How does our data look like? 
+
+```{r}
+
+head(plotdata)
+
 ```
 
 ---
@@ -225,11 +261,28 @@ plot
 ]
 
 ---
+
+```{r,eval=FALSE}
+library(mapview)
+
+mapview::mapview(plotdata,zcol="ja_anteil")
+```
+
+<center>
+```{r,echo=FALSE}
+library(mapview)
+
+mapview::mapview(plotdata,zcol="ja_anteil")
+```
+</center>
+
+---
 # Building a Web-App with R
 
 With Shiny, we can build a R powered Web-Application nurtured by the data on opendata.swiss. 
 
 - The app is automatically updated, as soon as a new vote date is available, via [CKAN API](https://handbook.opendata.swiss/support/api.html)
+
 --
 - No need to update by hand __before__ votation sundays
 --

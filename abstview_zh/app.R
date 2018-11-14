@@ -1,8 +1,14 @@
 # shiny app
 # voting results canton zurich
-library(pacman)
 
-pacman::p_load(jsonlite, tidyverse,sf,mapview, leaflet, shiny, shinythemes)
+library(jsonlite)
+library(tidyverse)
+library(sf)
+library(mapview)
+library(leaflet)
+library(shiny)
+library(shinythemes)
+library(DT)
 
 # options(shiny.usecairo=T)
 
