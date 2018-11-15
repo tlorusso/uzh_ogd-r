@@ -14,54 +14,51 @@ output:
 ---
 class: middle center
 
+## About me
 
-#### [open.zh.ch/](open.zh.ch/)
+Research Associate
+Official Statistics & Open Government Data
+Canton of Zurich
+
+#### [open.zh.ch](open.zh.ch/)
 
 #### [statistik.zh.ch](statistik.zh.ch/)
 
----
-
-- Getting data is a critical step in most research / data related tasks
-- sometimes one of the most difficult and time-consuming steps
-- even when data is accessible not granted that is is easy to find
-- frustrating format variabilities & compatibility issues
-
-
--> R & Opendata to help! 
-
-
-https://nceas.github.io/oss-lessons/open-data-in-r/open-data-in-R.html
+`r icon::fa("twitter")`[@thlorusso](https://twitter.com/thlorusso)
 
 ---
+# challenges of data aquisition
 
+- Getting data is a critical step in most research 
+- sometimes one of the most difficult and time-consuming steps 
+- even when data is accessible not granted that is is easy to find 
+- frustrating format variabilities & compatibility issues 
 
-# Opendata & R
-
-- __R__ (and similar open source software) lowers the barriers and costs to make data analysis __repetable and reproducible__.
-
-- __Open data__ ensures that everyone can access the same information for free (ideally, in a well structured manner)
-
---
-
-### __Democratization of data & tools for analysis__
-
-It is not alway possible to use open data (sensitive data : privacy / security)
-
-But when possible : unbeatable DUO (reproducibility paradise)
-
-A combination that allows collaboration on unprecedentend scale!
+Not only hindering academic research but also the development of innovative data-driven products & services.
 
 ---
+# Opendata to the rescue
 
-# What is open (government) data?
+Opendata can contribute to make data aquisition much easier. 
 
-How to ... trust ? 
+- Machine readable, freely accesible & published in open formats with open license
+- searchable on open data portals (e.g. opendata.swiss / data.europa.eu)
 
-- Reliability 
-- Timeliness
-- Traceablity
+Ongoing efforts to make it easier to retrieve data directly / automatically from (open) repositories with the same tools that are used for analysis. 
 
-## OPEN GOVERNMENT DATA
+For R : https://ropensci.org/
+---
+# The data should come to you
+
+How data aquisiton should feel
+![datacomestoyou](lib/datacomestoyou.gif)
+
+???
+Daten direkt in die Tools bringen, welche Forschende und Entwickler nutzen. Einmal suchen , dann mit demselben Code wiederkehrendè
+
+Data portals help! --> findability and common formats, metadata-standards (DCAT)
+
+But when you can get data directly into your ... even better!
 
 ---
 class: inverse, center, middle
@@ -91,6 +88,22 @@ R is an open-source programming language. It is run either interactively or by a
 However, R differs from those languages in its primary use case. Though R is becoming increasingly general-purpose, it was originally conceived as an open-source replacement for the statistical programming language ‘S’. As such, R is first and foremost a statistical programming language and, as a result, is widely used in academic data science and statistics programmes around the world.
 
 ---
+# Opendata & R to the rescue
+
+- __R__ (and similar open source software) lowers the barriers and costs to make data analysis __repetable and reproducible__.
+
+- __Open data__ ensures that everyone can access the same information for free (ideally, in a well structured manner)
+
+--
+
+### Democratization of data & tools for analysis
+
+
+It is not alway possible to use open data (sensitive data, privacy & security reasons) and open source software (formats).
+
+But whenever it is possible, this combination allows for __reproducibilty__, __repeatability__ as well as __collaboration on unprecedentend scale__
+
+---
 class: inverse centre middle
 
 # R & Open Data 
@@ -101,14 +114,10 @@ class: inverse centre middle
 
 #Daten in R lesen
 ```{r,message=FALSE,warning=FALSE}
-if (!require(pacman)) install.packages(pacman)
-
-pacman::p_load(sf,tidyverse,statR)
-
+library(sf)
 library(tidyverse)
-# library(purrr)
 
-# get json via webservice
+# get json via webservice, dataset-description : https://opendata.swiss/de/dataset/echtzeitdaten-am-abstimmungstag
 data <- jsonlite::fromJSON("http://www.wahlen.zh.ch/abstimmungen/2016_09_25/viewer_download.php")
 
 # transform nested list into dataframe
@@ -119,9 +128,8 @@ data <- data %>%
 ```
 
 ---
-
+Some data preparation...
 ```{r,message=FALSE,warning=FALSE, message=FALSE, dpi=100, fig.height=2}
-# install.packages("ggridges")
 data$VORLAGE_NAME <- factor(data$VORLAGE_NAME, labels = c("Grüne Wirtschaft", "AHV Plus", "NDG", "Bezahlbare Kinderbetreuung"))
 
 data <-data %>% mutate_at(vars(JA_STIMMEN_ABSOLUT,NEIN_STIMMEN_ABSOLUT,JA_PROZENT,STIMMBETEILIGUNG),as.numeric)
@@ -134,7 +142,7 @@ data <-data %>%
 
 ---
 
-```{r}
+```{r, dpi=120, fig.height=4}
 library(ggridges)
 
 ggplot(data,aes(ja_anteil,VORLAGE_NAME))+
@@ -150,20 +158,19 @@ ggplot(data,aes(ja_anteil,VORLAGE_NAME))+
 .pull-left[
 
 ```{r,message=FALSE,warning=FALSE}
-
-# get shapefile from here
+# get shapefile from :
 # http://www.web.statistik.zh.ch/cms_basiskarten/gen_Gemeinde_2018/GEN_A4_GEMEINDEN_SEEN_2018_F.zip
 
-#Gemeindeshapes
+#load the municipality boundaries shapefile
 gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE) %>% select(BFS,BEZIRK,REGION)
 
-#join municipality-infos to points
+#join geodata to the vote result dataframe
 mapdata <- left_join(data,gemeinden, by=c("BFS")) 
 
+#map displaying yes-shares per municpality
 map <- ggplot(mapdata)+
   geom_sf(aes(fill=ja_anteil))+
   facet_wrap(~VORLAGE_NAME)
-
 ```
 ]
 
@@ -182,8 +189,6 @@ map
 .pull-left[
 
 ```{r,message=FALSE,warning=FALSE, dpi=125}
-
-#Labels - Kurzbezeichnung 
 mapdata <- inner_join(gemeinden,data, by=c("BFS"))
 
 mapnew <- ggplot(mapdata)+
@@ -230,11 +235,10 @@ plotdata <- mapdata %>%
 ```
 
 ---
-How does our data look like? 
 
 ```{r}
 
-head(plotdata)
+glimpse(plotdata)
 
 ```
 
@@ -242,7 +246,7 @@ head(plotdata)
 
 .pull-left[
 ```{r,warnings=FALSE}
-
+# devtools::install_github("statistikZH/statR")
 library(statR)
 
 plot <- ggplot(plotdata, aes(sp_anteil,ja_anteil, size=einwohner/1000))+
@@ -282,22 +286,39 @@ mapview::mapview(plotdata,zcol="ja_anteil")
 ---
 # Building a Web-App with R
 
-With Shiny, we can build a R powered Web-Application nurtured by the data on opendata.swiss. 
+<img src="shiny.jpg" alt="drawing" width="10%"/>
 
-- The app is automatically updated, as soon as a new vote date is available, via [CKAN API](https://handbook.opendata.swiss/support/api.html)
+With Shiny, we can build an R powered Web-Application nurtured by the data on opendata.swiss.
 
 --
+- The app is automatically updated, as soon as a new vote date is available, via [CKAN API](https://handbook.opendata.swiss/support/api.html)
+--
+
 - No need to update by hand __before__ votation sundays
 --
+
 - Real time data stream __on__ votation sundays
+--
+
+- No WEB - DEVELOPMENT skills required
 
 
-<img src="shiny.jpg" alt="drawing" width="20%"/>
+https://statistikzh.shinyapps.io/zhvote/
 
 ---
 
+https://statistikzh.shinyapps.io/swr_zh/
+
+---
+# There's more...
 
 
 
+---
+## Resources
+
+https://github.com/ropensci/opendata
+
+https://nceas.github.io/oss-lessons/open-data-in-r/open-data-in-R.html
 
 
