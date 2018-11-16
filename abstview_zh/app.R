@@ -11,6 +11,7 @@ library(shiny)
 library(shinythemes)
 library(DT)
 library(tmap)
+library(ggplot2)
 library(curl)
 
 urls <- jsonlite::fromJSON("https://opendata.swiss/api/3/action/package_show?id=echtzeitdaten-am-abstimmungstag")
@@ -29,35 +30,45 @@ ui <-   fluidPage(
   navbarPage(theme = shinytheme("cerulean"),
                    title= "ZH Vote", 
                    
-                   tabPanel("Vote date", 
+                   tabPanel("Abstimmungstermin", 
                             fluidRow(
                               column(4, selectizeInput('urlselect', 
-                                                       label= 'Vote date',
+                                                       label= 'Abstimmungstermin auswählen',
                                                        choices = datevote, 
                                                        selected = "2016_09_25"))),
                             
+                            plotOutput("histogram", width = "100%"),
                             DT::dataTableOutput("table")
                             
                             ),
     
-     tabPanel("Map", 
+     tabPanel("Karte", 
               
-     # Application titl
-     "This shiny-App is a Demo nurtred by the real-time data service on popular votes of the canton Zurich.",
      br(),
      # Show a plot of the generated distribution
      fluidRow(
        column(4, selectInput('topicselect', 
-                                label= 'select votation',""))),
+                                label= 'Vorlage auswählen',""))),
     
       # Show a plot of the generated distribution
       mainPanel(
-        # plotOutput("plot", width = "100%")
         leaflet::leafletOutput("mapview")
         
 
       )
-   )))
+   ),
+   tabPanel("Über", 
+            
+            mainPanel(
+            h3("Open Data : Abstimmungsresultate via Echtzeit-Webservice"),
+            "Diese Shiny-App ist auf dem Echtzeit Abstimmungsdaten-Webservice des Kantons Zürich aufgebaut. Sie wird im Vorfeld von Abstimmungsterminen automatisch via opendata.swiss DCAT Action API aktualisiert.",
+            br(),
+            a("https://opendata.swiss/de/dataset/echtzeitdaten-am-abstimmungstag")
+            )
+ 
+              
+              
+        )))
 
 
 # Define server logic required to draw a histogram
@@ -75,7 +86,7 @@ server <- function(input, output,session) {
               
               nd <- nd %>% 
                 dplyr::mutate_at(vars(JA_STIMMEN_ABSOLUT,NEIN_STIMMEN_ABSOLUT,JA_PROZENT,STIMMBETEILIGUNG),as.numeric) %>% 
-                dplyr::group_by(BFS,VORLAGE_NAME) %>% 
+                dplyr::group_by(BFS,VORLAGE_NAME,VORLAGE_ID) %>% 
                 dplyr::summarize(ja_anteil=round(sum(JA_STIMMEN_ABSOLUT,na.rm=T)/sum(JA_STIMMEN_ABSOLUT+NEIN_STIMMEN_ABSOLUT,na.rm=T)*100,1))
               
     
@@ -117,12 +128,30 @@ observe({
 
 
   })
+ 
+ 
+ 
+ 
+  output$histogram <- renderPlot(ggplot(datanew()) + 
+                              geom_histogram(aes(x=ja_anteil),fill="steelblue")+
+                              facet_wrap(~VORLAGE_NAME)+
+                              theme_minimal()+
+                              geom_vline(xintercept=50)+
+                              scale_x_continuous(limits = c(0, 100),breaks=seq(0,100,10))+
+                              annotate("rect", xmin=50, xmax=100, ymin=0, ymax=Inf,fill="steelblue",alpha=0.3)+
+                              annotate("rect", xmin=0, xmax=50, ymin=0, ymax=Inf,fill="coral",alpha=0.3)+
+                              annotate("text", x=90,y=70,label = "bold(JA)", colour = "white",parse = TRUE,size = 10)+
+                              annotate("text", x=10,y=70,label = "bold(NEIN)", colour = "white",parse = TRUE,size = 10)+
+                              labs(x="Ja-Anteil (%)",y="Anzahl Gemeinden"), 
+                              width = "auto", height = "auto", res = 72)
+  
+ 
 
   output$table <- DT::renderDataTable(DT::datatable({
                          
                         datanew() %>% 
-                        dplyr::mutate(Auszaehlstand=ifelse(ja_anteil>0, "ausgezaehlt","nicht ausgezaehlt")) %>% 
-                        dplyr::group_by(VORLAGE_NAME,Auszaehlstand) %>% 
+                        dplyr::mutate(Status=ifelse(ja_anteil>0, "ausgezählt","nicht ausgezählt")) %>% 
+                        dplyr::group_by(VORLAGE_NAME,Status) %>% 
                         dplyr::summarize(Gebiete=n()) %>% 
                         sf::st_set_geometry(NULL) %>% 
                         dplyr::rename(Vorlage=VORLAGE_NAME)
