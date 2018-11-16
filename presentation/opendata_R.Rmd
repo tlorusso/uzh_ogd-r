@@ -16,8 +16,10 @@ class: middle center
 
 ## About me
 
-Research Associate
-Official Statistics & Open Government Data
+Research Associate 
+
+Official Statistics & Open Government Data 
+
 Canton of Zurich
 
 #### [open.zh.ch](open.zh.ch/)
@@ -27,33 +29,52 @@ Canton of Zurich
 `r icon::fa("twitter")`[@thlorusso](https://twitter.com/thlorusso)
 
 ---
-# challenges of data aquisition
+# The challenges of data aquisition
 
 - Getting data is a critical step in most research 
+
 - sometimes one of the most difficult and time-consuming steps 
+
 - even when data is accessible not granted that is is easy to find 
+
 - frustrating format variabilities & compatibility issues 
 
 Not only hindering academic research but also the development of innovative data-driven products & services.
 
 ---
-# Opendata to the rescue
 
-Opendata can contribute to make data aquisition much easier. 
+# Open Data to the rescue
 
-- Machine readable, freely accesible & published in open formats with open license
-- searchable on open data portals (e.g. opendata.swiss / data.europa.eu)
+__Open Data can contribute to making data aquisition much less painful__
 
-Ongoing efforts to make it easier to retrieve data directly / automatically from (open) repositories with the same tools that are used for analysis. 
+- Machine readable, freely accessible & published in open formats with open license  
 
-For R : https://ropensci.org/
+- searchable on open data portals (e.g. [opendata.swiss](https://opendata.swiss/de/) / [data.europa.eu](http://data.europa.eu/) / [opentransportdata.swiss](https://opentransportdata.swiss/en/))
+
+--
+
+Also, there are many ongoing efforts to make it easier to retrieve data directly / automatically from (open) repositories with the same tools that are used for analysis. 
+
+In the case of __R__ this results into a growing number of (open) data-packages and API-wrappers.
+
+Prime example: the __rOpenSci__-initative
+
+<img src="https://avatars3.githubusercontent.com/u/1200269?v=3&s=280" alt="drawing" width="10%"/>
+
+https://ropensci.org/
+
 ---
-# The data should come to you
+class: center middle
 
-How data aquisiton should feel
-![datacomestoyou](lib/datacomestoyou.gif)
+### Data aquisition
+
+
 
 ???
+
+???
+
+
 Daten direkt in die Tools bringen, welche Forschende und Entwickler nutzen. Einmal suchen , dann mit demselben Code wiederkehrendè
 
 Data portals help! --> findability and common formats, metadata-standards (DCAT)
@@ -61,21 +82,14 @@ Data portals help! --> findability and common formats, metadata-standards (DCAT)
 But when you can get data directly into your ... even better!
 
 ---
-class: inverse, center, middle
+# What is `r icon::fa("r-project")`?
 
-# What is R ?
-
-<img src="rknife.png" alt="drawing" width="50%"/>
-
----
-# What is R ?
-
-- Programming language
-- open source
-- runs on multiple platforms
+- Programming language  
+- open source  
+- runs on multiple platforms  
 
 
-The R package - ecosystem comprehends a myriad of packages that extend the functionality of the R language. From data-manipulation, collection and visualization to modelling, GIS and domain specific appliactions
+The R package - ecosystem comprehends a myriad of packages that extend the functionality of the R language. They range from data-manipulation, data-collection and visualization to modelling, GIS as well as many domain specific applictions.
 
 
 [Field Guide to the R Ecosystem](https://fg2re.sellorm.com/whatisr.html)
@@ -88,20 +102,31 @@ R is an open-source programming language. It is run either interactively or by a
 However, R differs from those languages in its primary use case. Though R is becoming increasingly general-purpose, it was originally conceived as an open-source replacement for the statistical programming language ‘S’. As such, R is first and foremost a statistical programming language and, as a result, is widely used in academic data science and statistics programmes around the world.
 
 ---
+class: inverse, center, middle
+
+<img src="lib/rknife.png" alt="drawing" width="50%"/>
+
+---
+With R you can create fully reproducible documents in various formats, books, presentations, blogposts or even build web-applications that let others explore data interactively.
+
+<center><img src="lib/R.png" alt="drawing" width="30%"/></center>
+
+---
+
 # Opendata & R to the rescue
 
 - __R__ (and similar open source software) lowers the barriers and costs to make data analysis __repetable and reproducible__.
 
-- __Open data__ ensures that everyone can access the same information for free (ideally, in a well structured manner)
+- __Open Data__ ensures that everyone can access the same information for free (ideally, in a well structured manner)
 
 --
 
 ### Democratization of data & tools for analysis
 
 
-It is not alway possible to use open data (sensitive data, privacy & security reasons) and open source software (formats).
+It is not alway possible to use open data (sensitive data, privacy & security reasons) and open source software (special formats).
 
-But whenever it is possible, this combination allows for __reproducibilty__, __repeatability__ as well as __collaboration on unprecedentend scale__
+But whenever it is possible, their combination allows for __reproducibilty__, __repeatability__ as well as __collaboration on unprecedentend scale__
 
 ---
 class: inverse centre middle
@@ -111,8 +136,9 @@ class: inverse centre middle
 ### Showcase : Real Time Data-Service of popular vote results in the canton Zurich
 
 ---
+The canton of Zurich provides a web service for real time results on voting sundays.
+https://opendata.swiss/de/dataset/echtzeitdaten-am-abstimmungstag
 
-#Daten in R lesen
 ```{r,message=FALSE,warning=FALSE}
 library(sf)
 library(tidyverse)
@@ -120,7 +146,7 @@ library(tidyverse)
 # get json via webservice, dataset-description : https://opendata.swiss/de/dataset/echtzeitdaten-am-abstimmungstag
 data <- jsonlite::fromJSON("http://www.wahlen.zh.ch/abstimmungen/2016_09_25/viewer_download.php")
 
-# transform nested list into dataframe
+# transform nested list into an R-friendly dataframe
 data <- data %>% 
   map_dfr(bind_rows) %>% 
   unnest(VORLAGEN)
@@ -130,11 +156,12 @@ data <- data %>%
 ---
 Some data preparation...
 ```{r,message=FALSE,warning=FALSE, message=FALSE, dpi=100, fig.height=2}
+#short labels for each vote topic
 data$VORLAGE_NAME <- factor(data$VORLAGE_NAME, labels = c("Grüne Wirtschaft", "AHV Plus", "NDG", "Bezahlbare Kinderbetreuung"))
 
 data <-data %>% mutate_at(vars(JA_STIMMEN_ABSOLUT,NEIN_STIMMEN_ABSOLUT,JA_PROZENT,STIMMBETEILIGUNG),as.numeric)
 
-#aggregiere auf Gemeindeebene
+#aggregate results on municipality level
 data <-data %>% 
   group_by(BFS,VORLAGE_NAME) %>% 
   summarize(ja_anteil=round(sum(JA_STIMMEN_ABSOLUT,na.rm=T)/sum(JA_STIMMEN_ABSOLUT+NEIN_STIMMEN_ABSOLUT,na.rm=T)*100,1))
@@ -142,15 +169,12 @@ data <-data %>%
 
 ---
 
-```{r, dpi=120, fig.height=4}
-library(ggridges)
-
-ggplot(data,aes(ja_anteil,VORLAGE_NAME))+
-    geom_density_ridges(scale = 0.8, fill="steelblue") + 
-    theme_ridges() +
-    scale_y_discrete(expand = c(0.01, 0)) + 
-    scale_x_continuous(limits = c(0, 100),breaks=seq(0,100,25))+
-    labs(x="Ja-Anteil (%)", y="Vorlage")
+Let's take first look at the distribution of yes-shares of the different voting topics.
+```{r, dpi=120, warning=FALSE, message=FALSE}
+ggplot(data, aes(x=ja_anteil)) + 
+              geom_histogram(fill="steelblue")+
+              facet_wrap(~VORLAGE_NAME)+
+              scale_x_continuous(limits = c(0, 100),breaks=seq(0,100,25))
 ```
 
 ---
@@ -158,7 +182,7 @@ ggplot(data,aes(ja_anteil,VORLAGE_NAME))+
 .pull-left[
 
 ```{r,message=FALSE,warning=FALSE}
-# get shapefile from :
+# get municipality-borders shapefile from :
 # http://www.web.statistik.zh.ch/cms_basiskarten/gen_Gemeinde_2018/GEN_A4_GEMEINDEN_SEEN_2018_F.zip
 
 #load the municipality boundaries shapefile
@@ -216,6 +240,16 @@ mapnew
 ---
 
 ```{r}
+
+glimpse(mapdata)
+
+```
+
+In R, we can store the actual data as well as the needed geo-information in the same dataframe.
+
+---
+
+```{r}
 # https://opendata.swiss/de/dataset/bevolkerung-pers
 bev <- read.csv("http://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_133.csv", sep=";", encoding="UTF8") %>%
   select(BFS = `ï..BFS_NR`, einwohner=INDIKATOR_VALUE,INDIKATOR_JAHR,GEBIET_NAME) %>% 
@@ -232,14 +266,6 @@ plotdata <- mapdata %>%
             left_join(sp, by=c("BFS")) %>% 
             left_join(bev, by=c("BFS")) %>% 
             mutate_at(vars(sp_anteil,einwohner),as.numeric) 
-```
-
----
-
-```{r}
-
-glimpse(plotdata)
-
 ```
 
 ---
@@ -286,12 +312,14 @@ mapview::mapview(plotdata,zcol="ja_anteil")
 ---
 # Building a Web-App with R
 
-<img src="shiny.jpg" alt="drawing" width="10%"/>
+<img src="lib/shiny.jpg" alt="drawing" width="10%"/>
 
-With Shiny, we can build an R powered Web-Application nurtured by the data on opendata.swiss.
+With Shiny, we can build an R powered Web-Application nurtured by the data on opendata.swiss. Shiny Apps let other people run your R-Code interactively without having to code themselfes.
+
+https://statistikzh.shinyapps.io/zhvote/
 
 --
-- The app is automatically updated, as soon as a new vote date is available, via [CKAN API](https://handbook.opendata.swiss/support/api.html)
+- The app is automatically updated, as soon as a new vote date is listed, via the opendata.swiss [CKAN API](https://handbook.opendata.swiss/support/api.html)
 --
 
 - No need to update by hand __before__ votation sundays
@@ -300,18 +328,42 @@ With Shiny, we can build an R powered Web-Application nurtured by the data on op
 - Real time data stream __on__ votation sundays
 --
 
-- No WEB - DEVELOPMENT skills required
+- No web development skills required
 
+???
 
-https://statistikzh.shinyapps.io/zhvote/
+Some basic html / css skills nice to have : customizing! The nice thing with R is that if you know R , it lets you do things as this (building web apps)
 
 ---
 
 https://statistikzh.shinyapps.io/swr_zh/
 
 ---
-# There's more...
+# Open Data Resources
 
+
+
+https://github.com/ropensci/opendata
+
+
+---
+# This presentation
+
+
+
+R does not 
+
+data retrieval reproducible.
+
+
+R is not only suited for data analysis...
+
+It also lets you 
+
+
+---
+
+R & Open Data help to make data retrieval (more) reproducible
 
 
 ---
