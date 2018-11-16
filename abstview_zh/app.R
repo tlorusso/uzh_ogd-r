@@ -2,15 +2,16 @@
 # voting results canton zurich
 
 library(jsonlite)
-library(tidyverse)
+library(purrr)
+library(dplyr)
+library(tidyr)
 library(sf)
-library(mapview)
 library(leaflet)
 library(shiny)
 library(shinythemes)
 library(DT)
-
-# options(shiny.usecairo=T)
+library(tmap)
+library(curl)
 
 urls <- jsonlite::fromJSON("https://opendata.swiss/api/3/action/package_show?id=echtzeitdaten-am-abstimmungstag")
 
@@ -18,7 +19,7 @@ datevote <- substr(urls$result$resources$download_url,38,47)
 
 # urls$result$resources$download_url[1]
 
-gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE)
+gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE) %>% select(BFS)
 
    
    # Sidebar with a slider input for number of bins 
@@ -26,7 +27,7 @@ ui <-   fluidPage(
   tags$header(tags$style(".navbar-header { font-family: Arial Black;}"),
               tags$style(" .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 { font-family: Arial Black;}")),
   navbarPage(theme = shinytheme("cerulean"),
-                   title=div(img(src="lionwhitemini.png"), "ZH Vote"), 
+                   title= "ZH Vote", 
                    
                    tabPanel("Vote date", 
                             fluidRow(
@@ -52,7 +53,9 @@ ui <-   fluidPage(
       # Show a plot of the generated distribution
       mainPanel(
         # plotOutput("plot", width = "100%")
-        leafletOutput("mapview")
+        leaflet::leafletOutput("mapview")
+        
+
       )
    )))
 
@@ -92,30 +95,36 @@ mapdata <- reactive({
  vorlagen <- reactive({ unique(datanew()$VORLAGE_NAME) })
  
 
- observe({
+observe({
    updateSelectInput(session, "topicselect",
                      choices = vorlagen())})
 
  
-
+# 
  output$mapview <-  renderLeaflet({
 
 
-   m1 <-mapview::mapview(mapdata(), zcol = "ja_anteil", at = seq(0, 100, 5), legend = TRUE)
+   # m1 <-mapview::mapview(mapdata(), zcol = "ja_anteil", at = seq(0, 100, 5), legend = TRUE)
+   # 
+   # m1@map
    
-   m1@map
+   tm <- tm_basemap(leaflet::providers$Stamen.TerrainBackground) +
+     tm_shape(mapdata()) +
+     tm_polygons(col = "ja_anteil", palette = "-Blues") +
+     tm_tiles(leaflet::providers$Stamen.TonerLabels, group = "Labels")
+ 
+ tmap_leaflet(tm)
 
 
   })
- 
 
   output$table <- DT::renderDataTable(DT::datatable({
                          
                         datanew() %>% 
-                        mutate(Auszählstand=ifelse(ja_anteil>0, "ausgezählt","Nicht ausgezählt")) %>% 
-                        group_by(VORLAGE_NAME,Auszählstand) %>% 
-                        summarize(`Gebiete`=n()) %>% 
-                        st_set_geometry(NULL) %>% 
+                        dplyr::mutate(Auszaehlstand=ifelse(ja_anteil>0, "ausgezaehlt","nicht ausgezaehlt")) %>% 
+                        dplyr::group_by(VORLAGE_NAME,Auszaehlstand) %>% 
+                        dplyr::summarize(Gebiete=n()) %>% 
+                        sf::st_set_geometry(NULL) %>% 
                         dplyr::rename(Vorlage=VORLAGE_NAME)
 
       
