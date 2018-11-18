@@ -68,12 +68,6 @@ Prime example: the __rOpenSci__-initative
 
 https://ropensci.org/
 
----
-class: center middle
-
-### Data aquisition
-
-
 
 ???
 
@@ -182,16 +176,23 @@ data &lt;-data %&gt;%
 
 ---
 
-Let's take first look at the distribution of yes-shares of the different voting topics.
+Let's take first look at the distribution of yes-shares across municipalities of the different voting topics.
+.pull-left[
 
 ```r
-ggplot(data, aes(x=ja_anteil)) + 
+plot&lt;-ggplot(data, aes(x=ja_anteil)) + 
               geom_histogram(fill="steelblue")+
               facet_wrap(~VORLAGE_NAME)+
               scale_x_continuous(limits = c(0, 100),breaks=seq(0,100,25))
 ```
+]
+--
 
-![](opendata_R_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+.pull-right[
+
+![](opendata_R_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+]
 
 ---
 
@@ -224,7 +225,7 @@ map &lt;- ggplot(mapdata)+
 map
 ```
 
-![](opendata_R_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+![](opendata_R_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -251,7 +252,7 @@ mapnew &lt;- ggplot(mapdata)+
 
 .pull-right[
 
-![](opendata_R_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+![](opendata_R_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -299,14 +300,6 @@ plotdata &lt;- mapdata %&gt;%
 
 ---
 
-You can replicate all the graphics demonstrated in this presentation by runing the code yourself. There is no need to download data by hand and / or bringing it into a form that allows you to test for errors. 
-
-__100% reproducible__
-
-If i were to make a claim on their basis, the only thing you might doubt is the conclusion that i draw from them.
-
----
-
 .pull-left[
 
 ```r
@@ -330,8 +323,29 @@ plot &lt;- ggplot(plotdata, aes(sp_anteil,ja_anteil, size=einwohner/1000))+
 plot
 ```
 
-![](opendata_R_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+![](opendata_R_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
 ]
+
+---
+# A fully reproducible presentation
+
+You can replicate this presentation as well as all the plots and maps demonstrated in it by runing the code yourself. There is no need to download data by hand and / or bringing it into a form that allows you to check for errors.
+
+If i were to make a claim on their basis, the only thing you might doubt is the conclusion that i draw from them.
+
+--
+## How does this work?
+
+- With [RMarkdown](https://rmarkdown.rstudio.com/), narrative text and code are part of the same document. We can weave elegantly formated output, such as this very presentation, from them.
+
+- By recurring to freely available (open) data sources the data is integrated just by linking to it (stable URLs).
+
+---
+class: inverse, middle,center
+
+# Interactive Graphics &amp; 
+# Web Applications with R
+
 ---
 
 
@@ -386,7 +400,7 @@ To use R and | or opendata for analysis helps in terms of:
 - repeatability
 - allowing collaboration 
 
-R is a very ..
+R is a very ...
 
 
 ---
