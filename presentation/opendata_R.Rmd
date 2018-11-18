@@ -11,6 +11,7 @@ output:
       highlightLines: true
       countIncrementalSlides: false
       ratio: "16:9"
+      beforeInit: "https://platform.twitter.com/widgets.js"
 ---
 class: middle center
 
@@ -72,10 +73,8 @@ class: center middle
 
 ???
 
-???
 
-
-Daten direkt in die Tools bringen, welche Forschende und Entwickler nutzen. Einmal suchen , dann mit demselben Code wiederkehrendè
+Daten direkt in die Tools bringen, welche Forschende und Entwickler nutzen. Einmal suchen , dann mit demselben Code wiederkehrend dasselbe tun. Das bedeuted, eine Analyse 
 
 Data portals help! --> findability and common formats, metadata-standards (DCAT)
 
@@ -106,10 +105,14 @@ class: inverse, center, middle
 
 <img src="lib/rknife.png" alt="drawing" width="50%"/>
 
+???
+R ist ein sehr vielseitiges Werkzeug.
+
 ---
 With R you can create fully reproducible documents in various formats, books, presentations, blogposts or even build web-applications that let others explore data interactively.
 
 <center><img src="lib/R.png" alt="drawing" width="30%"/></center>
+
 
 ---
 
@@ -129,7 +132,12 @@ It is not alway possible to use open data (sensitive data, privacy & security re
 But whenever it is possible, their combination allows for __reproducibilty__, __repeatability__ as well as __collaboration on unprecedentend scale__
 
 ---
-class: inverse centre middle
+class: centre middle
+
+<center><a href="https://twitter.com/RTreb/status/1063717277001023490"><img src="lib/tweet.png" alt="drawing" height="50%"/></a></center>
+
+---
+class: inverse
 
 # R & Open Data 
 
@@ -270,6 +278,14 @@ plotdata <- mapdata %>%
 
 ---
 
+You can replicate all the graphics demonstrated in this presentation by runing the code yourself. There is no need to download data by hand and / or bringing it into a form that allows you to test for errors. 
+
+__100% reproducible__
+
+If i were to make a claim on their basis, the only thing you might doubt is the conclusion that i draw from them.
+
+---
+
 .pull-left[
 ```{r,warnings=FALSE}
 # devtools::install_github("statistikZH/statR")
@@ -292,20 +308,19 @@ plot <- ggplot(plotdata, aes(sp_anteil,ja_anteil, size=einwohner/1000))+
 plot
 ```
 ]
-
 ---
 
 ```{r,eval=FALSE}
-library(mapview)
-
-mapview::mapview(plotdata,zcol="ja_anteil")
+# library(mapview)
+# 
+# mapview::mapview(plotdata,zcol="ja_anteil")
 ```
 
 <center>
 ```{r,echo=FALSE}
-library(mapview)
-
-mapview::mapview(plotdata,zcol="ja_anteil")
+# library(mapview)
+# 
+# mapview::mapview(plotdata,zcol="ja_anteil")
 ```
 </center>
 
@@ -372,5 +387,9 @@ R & Open Data help to make data retrieval (more) reproducible
 https://github.com/ropensci/opendata
 
 https://nceas.github.io/oss-lessons/open-data-in-r/open-data-in-R.html
+
+https://ropensci.org/blog/2018/11/13/antarctic/
+
+
 
 
