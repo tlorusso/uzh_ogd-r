@@ -350,8 +350,23 @@ https://statistikzh.shinyapps.io/zhvote/
 Some basic html / css skills nice to have : customizing! The nice thing with R is that if you know R , it lets you do things as this (building web apps)
 
 ---
+# A further example
+
+A Shiny App that allows to compare social walfare rates:
 
 https://statistikzh.shinyapps.io/swr_zh/
+
+---
+# Conclusions
+
+To use R and | or opendata for analysis helps in terms of:
+
+- reproducibilty
+- repeatability
+- allowing collaboration 
+
+R is a very ..
+
 
 ---
 # Open Data Resources
