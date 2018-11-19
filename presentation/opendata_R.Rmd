@@ -90,22 +90,26 @@ The R package - ecosystem comprehends a myriad of packages that extend the funct
 
 ???
 
-R is an open-source programming language. It is run either interactively or by an interpreter from commands saved in text files, or “scripts”. This makes it similar to programming languages like Python or Ruby.
+R ist eine open source programmiersprache. Man kann sie interaktiv ausführen, oder auch skripte ablegen die dann ein interpreter ausführt - ähnlich wie bei ruby oder python. 
 
-However, R differs from those languages in its primary use case. Though R is becoming increasingly general-purpose, it was originally conceived as an open-source replacement for the statistical programming language ‘S’. As such, R is first and foremost a statistical programming language and, as a result, is widely used in academic data science and statistics programmes around the world.
-
+R hebt sich von diesen sprachen jedoch punkto haupt-einsatzgebiet ab. Obwohl R immer breiter wird in der anwendung, war es ursprünglich ein open-source nachfolger der statistik-sprache S. Somit ist R in erster linie eine programmiersprache für statistischen gebrauch - und dementsprechend weitverbreitet an den universitäten in - statistik-programmen oder data-science lehrgängen weltweit. Für die öffentliche Statistik ist R prädestiniert - ich war diesen Herbst an einer Konferenz zur Nutzung von R in der öff. Statistik : R ist das TOol der wahl.
 ---
 class: inverse, center, middle
 
 <img src="lib/rknife.png" alt="drawing" width="50%"/>
 
 ???
-R ist ein sehr vielseitiges Werkzeug.
+R - ursprünglich statsitik-prgrammiersprache für datenanylse und modellierung ist mittlerweile ein echt vielfältigeswerkzeug - ähnlich einem Sackmesser.Daten manipulation, modellierung von der Regression zu statistischem lernen, aber auch Daten erheen im netz (web scraping / crawling). Und in gewissen Dingen ist R ziemlich exzellent - zum beisipel wenn es darum geht, die eigenen Resultate direkt aus R heraus in ein publikationsreifes Gefäss einzubetten.
+
+Was ist damit gemeint? 
 
 ---
 With R you can create fully reproducible documents in various formats, books, presentations, blogposts or even build web-applications that let others explore data interactively.
 
 <center><img src="lib/R.png" alt="drawing" width="30%"/></center>
+
+???
+Mit R können Sie reproduzierbare Dokumente in unterschiedlichster Form generieren. Ganze Bücher oder Dissertationen, sie könnemit R eine Webseite generieren und im Stile eines Datenblogs laufends aus R heraus neue Posts publizieren, sie können Web-Applikationen bauen die andere ihre Daten und Resultate interaktiv durchforsten lassen. Sie sehen - die Möglichkeiten sind schier unbegrenzt - und das mit frei verfügbarer Software.
 
 
 ---
@@ -124,6 +128,19 @@ With R you can create fully reproducible documents in various formats, books, pr
 It is not alway possible to use open data (sensitive data, privacy & security reasons) and open source software (special formats).
 
 But whenever it is possible, their combination allows for __reproducibilty__, __repeatability__ as well as __collaboration on unprecedentend scale__
+
+???
+Rekapitulieren wir hier kurz : R (und ähnliche oss) senken kosten und barrieren um datenanalyse repetier- und reproduzierbar zu machen. 
+
+Offene Daten ermöglichen, dass jeder freien zugriff auf dieselben, gut strukturierten, informationen hat. 
+
+Dies kommt einer demokratisierung von information in form von daten und der werkzeuge für die analyse gleich. 
+
+Natürlich : nicht immer möglich offene Daten zu nutzen - Einzeldaten, Gesundheitsdaten : Daten die aus datenschutz- oder sicherheitsgründen nicht offen sein können. Auch bei den Formaten, wen man es mit speziellen Datenstrukturen zu tun hat, die mit proprietärer Software ausgwertet werden müssen.
+
+Aber wenn es möglich ist : erlaubt ihnen diese Kombination nie da gewesene r & r und auch zusammenarbeit ohne sich dabei darum kümmern zu müssen wer zugriffsberechtigt ist oder wer eine lizenz von software x hat.
+
+Nun zu einem Beispiel mit offenen Daten des Kantons Zürich. Als Politologie-Absolvent habe ich eines gewählt dass mit besonders am Herzen 
 
 ---
 class: centre middle
