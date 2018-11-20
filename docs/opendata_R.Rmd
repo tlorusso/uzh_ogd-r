@@ -1,5 +1,5 @@
 ---
-title: "Opendata & R"
+title: "Open Data & R"
 subtitle: ""
 author: "Thomas Lo Russo"
 date: "Universität Zürich </br> 21.11.2018"
@@ -31,11 +31,11 @@ Canton of Zurich
 ???
 Dank den ID für Einladung.
 
-Wir produzieren ein Grossteil unserer Statistiken, der Visualisierungen die wir veröffentlichen bis hin zu ganzen Publikationen mit R. 
+Ich bin wissenschaftlicher MA im stat. Amt ZH - ich arbeite tagtäglich mit R, denn wir produzieren ein Grossteil unserer Statistiken, der Visualisierungen die wir veröffentlichen bis hin zu ganzen Publikationen mit R. 
 
 Seit Anfang 2018 bin ich quasi zweigeteilt und darf als Teil der Fach- und Koordinationsstelle Open Government Data am Ausbau des Angebots offener Behördendaten mitarbeiten. 
 
-In dieser Veranstaltungsreihe geht es um offene Daten für Öffentlichkeit und Forschung. In meinem Referat wird es jedoch nicht nur um offene Daten gehen, sondern darum welchen Mehrwert das Arbeiten mit offenen Daten UND offener Software wie etwa R gleichzeitig bieten. Natürlich - wenn immer möglich. 
+In dieser Veranstaltungsreihe geht es um offene Daten für Öffentlichkeit und Forschung. In meinem Referat wird es jedoch nicht nur um offene Daten gehen, sondern darum welchen Mehrwert das Arbeiten mit offenen Daten UND offener Software wie etwa R gleichzeitig bieten. 
 
 ---
 # The challenges of data aquisition
@@ -52,9 +52,9 @@ Not only hindering academic research, but also the development of innovative dat
 
 ???
 
-Welche Herausforderungen haben Sie zu meistern, wenn Sie als Forschende, als Datenjournalisten oder als Privatpersonen eine Frage haben, die sie anhand von strukturierer, hochqualitativer Informationen beantwortet haben möchten? 
+Welche Herausforderungen haben Forschende, Datenjournalisten oder auch Privatpersonen eine Frage haben, die sie anhand von strukturierer, hochqualitativer Informationen beantwortet haben möchten? 
 
-Die müssen sich diese beschaffen. 
+Sie müssen sich diese Informationen beschaffen. 
 
 Aber... es ist nicht immer ganz einfach. Sie können sich glücklich schätzen, wenn Sie in einem Projekt arbeiten in dem man Ihnen die Daten schon fix - fertig aufbereitet zur Verfügung stellen kann. Doch ist dies wahrscheinlich nicht die Regel. Wir kriegen beim Statistischen Amt tagtäglich Anfragen zu den unterschiedlichsten Themen und wissen um die Schwierigkeiten bei der Datenbeschaffung.
 
@@ -96,7 +96,7 @@ Es gibt Bemühungen , Daten direkt in die Tools bringen, welche Forschende und E
 - runs on multiple platforms  
 
 
-The R package - ecosystem comprehends a myriad of packages that extend the functionality of the R language. They range from data-manipulation, data-collection and visualization to modelling, GIS as well as many domain specific applictions.
+The R package - ecosystem comprehends a myriad of packages that extend the functionality of the R language. They range from data-manipulation, data-collection and visualization to modelling, GIS as well as many domain specific applications.
 
 
 __Field Guide to the R Ecosystem__  
@@ -131,18 +131,13 @@ Mit R können Sie reproduzierbare Dokumente in unterschiedlichster Form generier
 
 ---
 
-# Open Data & R to the rescue
+# Democratization of data & tools for analysis
 
 - __R__ (and similar open source software) lowers the barriers and costs to make data analysis __repeatable and reproducible__.
 
 - __Open Data__ ensures that everyone can access the same information for free (ideally, in a well structured manner)
 
 --
-
-## Democratization of data & tools for analysis
-
---
-
 
 However, it is not always possible to use open data (sensitive data, privacy & security reasons) and open source software (special formats).
 
@@ -151,7 +146,7 @@ But whenever it is possible, their combination allows for __reproducibilty__, __
 ???
 Rekapitulieren wir hier kurz : R (und ähnliche oss) senken kosten und barrieren um datenanalyse repetier- und reproduzierbar zu machen. 
 
-Offene Daten ermöglichen, dass jeder freien zugriff auf dieselben, gut strukturierten, informationen hat. 
+Offene Daten ermöglichen, dass alle freien zugriff auf dieselben, gut strukturierten, informationen haben. 
 
 Dies kommt einer demokratisierung von information in form von daten und der werkzeuge für die analyse gleich. 
 
@@ -473,7 +468,28 @@ __To use R and | or Open Data for analysis helps in terms of:__
 
 ???
 
-R is a very versatile tool. It lets you do a broad variety of things that go far beyond the scope of a statistical programming language.
+Neue Möglichkeiten : sie können ohne GIS-Spezialist zu sein einfach mit offenen Geodaten arbeiten, Sie können Web applikationen bauen die automatisch mit den aktuellsten Daten befüllt werden und viel mehr. Also Dinge, für die sie sonst noch weitere Software benötigen oder andere Programmiersprachen erlernen müssten.
+
+---
+class: middle, center
+
+## Data of the Canton of Zurich on opendata.swiss
+https://opendata.swiss/de/organization/kanton-zuerich
+
+
+---
+#### Resources : Open Data & R
+
+[rOpenSci-TaskView on how to obtain, parse, create and share OpenData](https://github.com/ropensci/opendata)
+
+[Open Data in R and rOpenSci](https://nceas.github.io/oss-lessons/open-data-in-r/open-data-in-R.html)
+
+[The Antarctic/Southern Ocean rOpenSci community](https://ropensci.org/blog/2018/11/13/antarctic/)
+
+#### Are you new to R?
+
+[Getting Started with R](https://support.rstudio.com/hc/en-us/articles/201141096-Getting-Started-with-R)
+
 
 ---
 class: middle, center
@@ -487,21 +503,5 @@ Wednsday, 5. December 2018
 https://www.meetup.com/de-DE/Zurich-R-User-Group/
 
 ![rusergroup](https://secure.meetupstatic.com/photos/event/c/e/3/0/600_466012784.jpeg)
-
----
-
-#### Resources : Open Data & R
-
-[Data of the Canton of Zurich on opendata.swiss](https://opendata.swiss/de/organization/kanton-zuerich)
-
-[rOpenSci-TaskView on how to obtain, parse, create and share OpenData](https://github.com/ropensci/opendata)
-
-[Open Data in R and rOpenSci](https://nceas.github.io/oss-lessons/open-data-in-r/open-data-in-R.html)
-
-[The Antarctic/Southern Ocean rOpenSci community](https://ropensci.org/blog/2018/11/13/antarctic/)
-
-#### Are you new to R?
-
-[Getting Started with R](https://support.rstudio.com/hc/en-us/articles/201141096-Getting-Started-with-R)
 
 
