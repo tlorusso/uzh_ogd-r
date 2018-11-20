@@ -28,6 +28,10 @@ Canton of Zurich
 
 `r icon::fa("twitter")`[@thlorusso](https://twitter.com/thlorusso)
 
+## Slides 
+
+https://openzh.github.io/opendata_and_r
+
 ???
 Dank den ID für Einladung.
 
