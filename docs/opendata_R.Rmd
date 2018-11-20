@@ -130,12 +130,13 @@ Mit R können Sie reproduzierbare Dokumente in unterschiedlichster Form generier
 
 
 ---
-
-# Democratization of data & tools for analysis
+# Open Data & R 
 
 - __R__ (and similar open source software) lowers the barriers and costs to make data analysis __repeatable and reproducible__.
 
 - __Open Data__ ensures that everyone can access the same information for free (ideally, in a well structured manner)
+
+→ __Democratization of data & tools for analysis__
 
 --
 
