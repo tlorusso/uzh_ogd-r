@@ -99,7 +99,8 @@ Es gibt Bemühungen , Daten direkt in die Tools bringen, welche Forschende und E
 The R package - ecosystem comprehends a myriad of packages that extend the functionality of the R language. They range from data-manipulation, data-collection and visualization to modelling, GIS as well as many domain specific applictions.
 
 
-__Field Guide to the R Ecosystem__
+__Field Guide to the R Ecosystem__  
+
 https://fg2re.sellorm.com/whatisr.html
 
 
@@ -163,6 +164,9 @@ class: centre, middle
 
 <center><a href="https://twitter.com/RTreb/status/1063717277001023490"><img src="lib/tweet.PNG" alt="tweet" height="50%"/></a></center>
 
+???
+Beispiel : Arktisforscher die sich zusammenschliessen, Know How austauschen , packages für R erstellen die Daten zum Zustand der Arktis direkt in R bringen - aus den unterschiedlichsten Quellen: Eis, Ozeanographie, Atomsphärische Daten. Daten kommen aus unterschiedlichsten Quellen : EU kopernikus, NASA etc. Über Institutsgrenzen hinweg. 
+
 ---
 class: inverse, center, middle
 
@@ -172,7 +176,7 @@ class: inverse, center, middle
 
 ???
 
-Nun haben sie viel grundsätzliches gehört. Über zu einem Beispiel mit offenen Daten des Kantons Zürich. Als Politologie-Absolvent habe ich eines gewählt dass mit besonders am Herzen liegt. Das stat amt ist auch die kantonale Wahl- und Abstimmungszentrale. Die Resultate aus den Gemeinden fliessen am Abstimmungssontag bei uns zusammen, wir plausibilisieren diese und publizieren die Resultate laufend. Über unseren Echtzeitdaten-Service können unseren Datenstrom direkt anzapfen und den Auszählstand in Echzeit abrufen oder in eine Applikation oder einen Live-ticker einbetten. 
+Nun haben sie viel grundsätzliches gehört. Über zu einem Beispiel mit offenen Daten des Kantons Zürich. Als Politologie-Absolvent habe ich eines gewählt dass mir besonders am Herzen liegt. Das stat amt ist auch die kantonale Wahl- und Abstimmungszentrale. Die Resultate aus den Gemeinden fliessen am Abstimmungssontag bei uns zusammen, wir plausibilisieren diese und publizieren die Resultate laufend. Über unseren Echtzeitdaten-Service kann dieser Datenstrom direkt angezapft und der Auszählstand in Echzeit abgerufen werden. Sehr nützlich um in eine Applikation mit Live-Ticker charakter einzubetten.
 
 
 ---
@@ -235,7 +239,7 @@ plot
 ]
 
 ???
-Nun sind wir soweit : wir können die Verteilung der Ja-Anteile anschauen. 
+Nun können wir einen ersten Blick auf die Verteilung der Ja-Anteile nach Vorlage werfen.
 
 ---
 
@@ -347,7 +351,8 @@ plot <- ggplot(plotdata, aes(sp_anteil,ja_anteil, size=einwohner/1000))+
             theme_stat()+
             guides(fill="FALSE")+
             labs(title="Bezahlbare Kinderbetreuung",
-                 subtitle="Zustimmung zur VI bezahlbare Kinderbetreuung vs SP-Wähleranteil (NRW 2015)")
+                 subtitle="Zustimmung zur VI bezahlbare Kinderbetreuung vs SP-Wähleranteil (NRW 2015)",
+                 size="Einwohner (in '000)", x="Ja-Anteil (%)",y="SP-Wähleranteil (%)")
 
 ```
 ]
@@ -361,8 +366,7 @@ plot
 ]
 
 ???
-Sie sehen - auf Gemeindeebene gibt es einen Zusammenhang zwischen Ja zur Initative für bezahlbare Kinderbetreeung und SP-Wähleranteil - war zu erwarten, war ein Links anliegen. 
-
+Ich setze nun die Zustimmung zur Initiative für bezahlbare Kinderbetreuung ins Verhältnis mit dem SP-Wähleranteil : Sie sehen, es scheint da einen Zusammenhang zu geben. Nun könnte ich hier die These aufstellen, dass SP-Wähler der Vorlage eher zugestimmt haben. Was nicht unplausibel ist, es handelt sich hier um ein eher linkes Anliegen. Doch Sie können mich auch kritisieren und sagen, dass hier andere Faktoren entscheidend waren und man das noch mit Individualdaten prüfen müsste (Vor- oder Nachumfragedaten). Die Schlüsse die ich aus der Analyse ziehe, die können sie berechtigterweise hinterfragen. Da aber alles transparent ist - woher die Daten kommen und wie ich diese zusammengestellt und visualisiert habe - ist für sie jederzeit ersichtlich, auf welcher Basis ich zu diesem Schluss gekommen bin und können prüfen, ob das was ich als 'empirische' Grundlage hinzuziehe sauber ist oder ob es fehler gibt.
 
 ---
 class: inverse, middle, center
@@ -377,7 +381,9 @@ class: inverse, middle, center
 
 
 ???
-Sie können diese Präsentation und die Grafiken darin selbst erstellen in dem Sie einfach den Code nehmen. Sie müssen nichts händisch herunterladen und die Daten noch selber in eine Form bringen, welche es ihnen erlaubt diese auf Fehler zu prüfen. Aber was bringt das? Es erhöht das Vertrauen. Sie können sehen auf welchem Weg ich zum Ziel gekommen bin. An den Schlüssen, die ich daraus ziehe, an denen könnten sie zweifeln. 
+Was bringt es, dass sie diese Präsentation und die Grafiken darin selbst erstellen können, in dem Sie einfach den Code selbst ausführen? Das sie nichts händisch herunterladen und die Daten noch selber in eine Form bringen, welche es ihnen erlaubt diese auf Fehler zu prüfen?
+
+Es erhöht das Vertrauen. Sie können verfolgen, was meine Quellen sind und auf welchem Weg ich zum Ziel gekommen bin. An allfällign Schlüssen, die ich daraus ziehe, an denen könnten sie zweifeln. 
 
 ---
 
@@ -393,6 +399,9 @@ class: inverse, middle,center
 # Interactive Graphics & 
 # Web Applications with R
 
+???
+Nun mit R ist mehr möglich, als das erstellen von statischen Abbildungen : sie können ihre Arbeit , ihre Resultate ihrem Publikum auch in interaktiver Form zugänglich machen.
+
 ---
 With just one line of code, we can visualize the yes-shares on an interactive map.
 
@@ -407,8 +416,12 @@ mapview(plotdata,zcol="ja_anteil")
 library(mapview)
 
 mapview(plotdata,zcol="ja_anteil")
+
 ```
 </center>
+
+???
+Zum Beispiel können wir ganz einfach eine interaktive Karte erstellen - mit einer Linie code. Oder aber ist es möglich, den zuvor verwendeten code in eine Web applikation einzubauen. 
 
 ---
 # Building a Web-App with R
@@ -431,7 +444,13 @@ https://statistikzh.shinyapps.io/zhvote/
 
 - No web development skills required
 
+code: https://github.com/openZH/zhvote_app
+
 ???
+Wir können eine Shiny - App bauen, die via openda
+
+
+Hier sind die Grenzen natürlich durch sie vorgegeben : die User haben Auswahlmöglichkeiten die durch sie vordefiniert sind.
 
 Some basic html / css skills nice to have : customizing! The nice thing with R is that if you know R , it lets you do things as this (building web apps)
 
@@ -443,13 +462,18 @@ A Shiny App that allows to compare social walfare rates:
 https://statistikzh.shinyapps.io/swr_zh/
 
 ---
+class: inverse, middle, center
+
 # Conclusion
 
 To use R and | or open Data for analysis helps in terms of:
 
-#### Reproducibilty
-#### Repeatability
-#### Much simpler collaboration 
+## Reproducibilty
+## Repeatability
+## Much simpler collaboration 
+## New possibilities
+
+???
 
 R is a very versatile tool. It lets you do a broad variety of things that go far beyond the scope of a statistical programming language.
 
@@ -467,7 +491,7 @@ https://www.meetup.com/de-DE/Zurich-R-User-Group/
 ![rusergroup](https://secure.meetupstatic.com/photos/event/c/e/3/0/600_466012784.jpeg)
 
 ---
-### Are you new to R?
+## Are you new to R?
 
 [Getting Started with R](https://support.rstudio.com/hc/en-us/articles/201141096-Getting-Started-with-R)
 
