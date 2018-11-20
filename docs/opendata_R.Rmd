@@ -375,9 +375,9 @@ class: inverse, middle, center
 
 
 ???
-Was bringt es, dass sie diese Präsentation und die Grafiken darin selbst erstellen können, in dem Sie einfach den Code selbst ausführen? Das sie nichts händisch herunterladen und die Daten noch selber in eine Form bringen, welche es ihnen erlaubt diese auf Fehler zu prüfen?
+Was bringt es, dass sie jeden schritt von der Daten Beschaffung bis zur finalen Visualisierung reproduzieren können? 
 
-Es erhöht das Vertrauen. Sie können verfolgen, was meine Quellen sind und auf welchem Weg ich zum Ziel gekommen bin. An allfällign Schlüssen, die ich daraus ziehe, an denen könnten sie zweifeln. 
+Es erhöht das Vertrauen. Sie können verfolgen, was meine Quellen sind und auf welchem Weg ich zum Ziel gekommen bin. An allfällign Schlüssen, die ich daraus ziehe, an denen könnten sie zweifeln. Da sie meinen Code nehmen können, könnten sie zudem auch darauf aufbauen. Sie könnten ihn anpassen, weitere Indkatoren hinzufügen und mich beispielsweise davon überzeugen, dass andere Faktoren ausschlaggebend waren - die Altersstruktur oder die sozioökonomie etc.
 
 ---
 
@@ -397,26 +397,30 @@ class: inverse, middle,center
 Nun mit R ist mehr möglich, als das erstellen von statischen Abbildungen : sie können ihre Arbeit , ihre Resultate ihrem Publikum auch in interaktiver Form zugänglich machen.
 
 ---
-With just one line of code, we can visualize the yes-shares on an interactive map.
 
-```{r,eval=FALSE}
-library(mapview)
+.pull-left[
+With just a few lines of code, we can visualize the yes-shares on an interactive map.
 
-mapview(plotdata,zcol="ja_anteil")
+```{r,message=FALSE,warning=FALSE}
+library(tmap)
+
+tmap_mode("view")
+
+tm <- tm_shape(mapdata)+ 
+      tm_fill("ja_anteil",breaks=seq(0,100,10), 
+              palette = "-Blues",title = "Ja-Anteil (%)")
+
 ```
-
-<center>
-```{r,echo=FALSE}
-library(mapview)
-
-mapview(plotdata,zcol="ja_anteil")
-
+]
+--
+.pull-right[
+```{r}
+tm
 ```
-</center>
+]
 
 ???
-Zum Beispiel können wir ganz einfach eine interaktive Karte erstellen - mit einer Linie code. Oder aber ist es möglich, den zuvor verwendeten code in eine Web applikation einzubauen. 
-
+Zum Beispiel können wir ganz einfach eine interaktive Karte erstellen - mit ziemlich wenig code. In einem nächsten Schritt können wir nun verschiedene Code - Elemente aus dieser Präsentation nehmen und in eine Web App zusammenführen.
 ---
 # Building a Web-App with R
 
@@ -437,20 +441,12 @@ https://statistikzh.shinyapps.io/zhvote/
 --
 
 - No web development skills required
---
 
 code: https://github.com/openZH/zhvote_app
 
 
 ???
-Wir können eine Shiny - App bauen, die via openda
-
-Shiny Apps let other people run your R-Code interactively without having to code themselfes.
-
-
-Hier sind die Grenzen natürlich durch sie vorgegeben : die User haben Auswahlmöglichkeiten die durch sie vordefiniert sind.
-
-Some basic html / css skills nice to have : customizing! The nice thing with R is that if you know R , it lets you do things as this (building web apps)
+Wir können einige der Code-ELemente die teil dieser präs. waren nehmen (Daten einlesen, Histogram, Interaktive Karte) nehmen um eine Webapplikation auf basis der Echtzeitdaten zu bauen.
 
 
 ---
@@ -467,7 +463,7 @@ __To use R and | or Open Data for analysis helps in terms of:__
 
 ???
 
-Neue Möglichkeiten : sie können ohne GIS-Spezialist zu sein einfach mit offenen Geodaten arbeiten, Sie können Web applikationen bauen die automatisch mit den aktuellsten Daten befüllt werden und viel mehr. Also Dinge, für die sie sonst noch weitere Software benötigen oder andere Programmiersprachen erlernen müssten.
+Neue Möglichkeiten : sie können ohne GIS-Spezialist zu sein einfach mit einer grossen vielfalt an offenen Geodaten arbeiten. Sie können Web applikationen bauen die automatisch mit den aktuellsten Daten befüllt werden und viel mehr. Also Dinge, für die sie sonst noch weitere Software benötigen oder andere Programmiersprachen erlernen müssten und datenseitig einige Zeit in die Beschaffung von Daten investieren müssten.
 
 ---
 class: middle, center

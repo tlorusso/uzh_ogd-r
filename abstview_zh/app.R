@@ -16,7 +16,7 @@ library(curl)
 
 urls <- jsonlite::fromJSON("https://opendata.swiss/api/3/action/package_show?id=echtzeitdaten-am-abstimmungstag")
 
-datevote <- substr(urls$result$resources$download_url,38,47)
+datevote <- substr(urls$result$resources$download_url,39,48)
 
 # urls$result$resources$download_url[1]
 
@@ -25,8 +25,8 @@ gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE
    
    # Sidebar with a slider input for number of bins 
 ui <-   fluidPage(
-  tags$header(tags$style(".navbar-header { font-family: Arial Black;}"),
-              tags$style(" .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 { font-family: Arial Black;}")),
+  tags$header(tags$style(".navbar-header {font-family:Arial Black, Gadget, Arial, sans-serif; font-weight: 900;}"),
+              tags$style(" .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {font-family:Arial Black, Gadget, Arial, sans-serif; font-weight: 900;}")),
   navbarPage(theme = shinytheme("cerulean"),
                    title= "ZH Vote", 
                    
@@ -121,8 +121,9 @@ observe({
    
    tm <- tm_basemap(leaflet::providers$Stamen.TerrainBackground) +
      tm_shape(mapdata()) +
-     tm_polygons(col = "ja_anteil", palette = "-Blues") +
-     tm_tiles(leaflet::providers$Stamen.TonerLabels, group = "Labels")
+     tm_fill("ja_anteil",breaks=seq(0,100,10), palette = "-Blues",title = "Ja-Anteil (%)")+
+     tm_tiles(leaflet::providers$Stamen.TonerLabels, group = "Labels")+
+     tm_polygons()
  
  tmap_leaflet(tm)
 
@@ -140,8 +141,8 @@ observe({
                               scale_x_continuous(limits = c(0, 100),breaks=seq(0,100,10))+
                               annotate("rect", xmin=50, xmax=100, ymin=0, ymax=Inf,fill="steelblue",alpha=0.3)+
                               annotate("rect", xmin=0, xmax=50, ymin=0, ymax=Inf,fill="coral",alpha=0.3)+
-                              annotate("text", x=90,y=70,label = "bold(JA)", colour = "white",parse = TRUE,size = 10)+
-                              annotate("text", x=10,y=70,label = "bold(NEIN)", colour = "white",parse = TRUE,size = 10)+
+                              annotate("text", x=80,y=70,label = "bold(JA)", colour = "white",parse = TRUE,size = 9)+
+                              annotate("text", x=20,y=70,label = "bold(NEIN)", colour = "white",parse = TRUE,size = 9)+
                               labs(x="Ja-Anteil (%)",y="Anzahl Gemeinden"), 
                               width = "auto", height = "auto", res = 72)
   
@@ -150,7 +151,7 @@ observe({
   output$table <- DT::renderDataTable(DT::datatable({
                          
                         datanew() %>% 
-                        dplyr::mutate(Status=ifelse(ja_anteil>0, "ausgezählt","nicht ausgezählt")) %>% 
+                        dplyr::mutate(Status=ifelse(!is.na(ja_anteil), "ausgezählt","nicht ausgezählt")) %>% 
                         dplyr::group_by(VORLAGE_NAME,Status) %>% 
                         dplyr::summarize(Gebiete=n()) %>% 
                         sf::st_set_geometry(NULL) %>% 
