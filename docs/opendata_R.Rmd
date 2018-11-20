@@ -38,7 +38,7 @@ Seit Anfang 2018 bin ich quasi zweigeteilt und darf als Teil der Fach- und Koord
 In dieser Veranstaltungsreihe geht es um offene Daten für Öffentlichkeit und Forschung. In meinem Referat wird es jedoch nicht nur um offene Daten gehen, sondern darum welchen Mehrwert das Arbeiten mit offenen Daten UND offener Software wie etwa R gleichzeitig bieten. Natürlich - wenn immer möglich. 
 
 ---
-### The challenges of data aquisition
+# The challenges of data aquisition
 
 - getting data is a critical step in most research 
 
@@ -60,7 +60,7 @@ Aber... es ist nicht immer ganz einfach. Sie können sich glücklich schätzen, 
 
 ---
 
-### Open Data to the rescue
+# Open Data to the rescue
 
 __Open Data can contribute to making data aquisition much less painful__
 
@@ -447,9 +447,9 @@ https://statistikzh.shinyapps.io/swr_zh/
 
 To use R and | or open Data for analysis helps in terms of:
 
-#### reproducibilty
-#### repeatability
-#### much simpler collaboration 
+#### Reproducibilty
+#### Repeatability
+#### Much simpler collaboration 
 
 R is a very versatile tool. It lets you do a broad variety of things that go far beyond the scope of a statistical programming language.
 
