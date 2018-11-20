@@ -454,24 +454,16 @@ Hier sind die Grenzen nat√ºrlich durch sie vorgegeben : die User haben Auswahlm√
 
 Some basic html / css skills nice to have : customizing! The nice thing with R is that if you know R , it lets you do things as this (building web apps)
 
----
-# A further example
-
-A Shiny App that allows to compare social walfare rates:
-
-https://statistikzh.shinyapps.io/swr_zh/
 
 ---
 class: inverse, middle, center
 
-# Conclusion
+# To use R and | or Open Data for analysis helps in terms of:
 
-To use R and | or open Data for analysis helps in terms of:
-
-## Reproducibilty
-## Repeatability
-## Much simpler collaboration 
-## New possibilities
+# Reproducibilty
+# Repeatability
+# Much simpler collaboration 
+# New possibilities
 
 ???
 
@@ -491,11 +483,11 @@ https://www.meetup.com/de-DE/Zurich-R-User-Group/
 ![rusergroup](https://secure.meetupstatic.com/photos/event/c/e/3/0/600_466012784.jpeg)
 
 ---
-## Are you new to R?
+#### Are you new to R?
 
 [Getting Started with R](https://support.rstudio.com/hc/en-us/articles/201141096-Getting-Started-with-R)
 
-## Resources : Open Data & R
+#### Resources : Open Data & R
 
 [Data of the Canton of Zurich on opendata.swiss](https://opendata.swiss/de/organization/kanton-zuerich)
 
