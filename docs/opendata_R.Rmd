@@ -444,6 +444,8 @@ https://statistikzh.shinyapps.io/zhvote/
 
 - No web development skills required
 
+--
+
 code: https://github.com/openZH/zhvote_app
 
 ???
@@ -502,5 +504,33 @@ https://www.meetup.com/de-DE/Zurich-R-User-Group/
 
 [Getting Started with R](https://support.rstudio.com/hc/en-us/articles/201141096-Getting-Started-with-R)
 
+---
+
+#Questions?
+```{r, echo=FALSE,warning=FALSE,message=FALSE}
+
+# devtools::install_github("JohnCoene/echarts4r.assets")
+library(echarts4r)
+library(echarts4r.assets)
+url <- paste0("https://ecomfe.github.io/echarts-examples/",
+              "public/data-gl/asset/data/population.json")
+data <- jsonlite::fromJSON(url)
+data <- as.data.frame(data)
+names(data) <- c("lon", "lat", "value")
+
+data %>% 
+  e_charts(lon) %>% 
+  e_globe(
+    environment = ea_asset("starfield"),
+    base_texture = ea_asset("world topo"),
+    height_texture = ea_asset("world topo"),
+    displacementScale = 0.04
+  ) %>% 
+  e_bar_3d(lat, value, coord_system = "globe") %>% 
+  e_visual_map(show = FALSE) 
+
+```
+
+https://echarts4r.john-coene.com/
 
 
