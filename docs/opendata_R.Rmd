@@ -312,7 +312,7 @@ glimpse(mapdata)
 
 ```
 
-In R, we can store the actual data as well as the needed geo-information in the same tabular dataframe. The [sf-package](https://r-spatial.github.io/sf/) makes this happen.
+Thanks to the [sf-package](https://r-spatial.github.io/sf/) we can store the actual data as well as the needed geo-information in the same tabular dataframe.
 
 ---
 Let's add some data to try to explain the results of a specific vote.
@@ -352,7 +352,7 @@ plot <- ggplot(plotdata, aes(sp_anteil,ja_anteil, size=einwohner/1000))+
             guides(fill="FALSE")+
             labs(title="Bezahlbare Kinderbetreuung",
                  subtitle="Zustimmung zur VI bezahlbare Kinderbetreuung vs SP-Wähleranteil (NRW 2015)",
-                 size="Einwohner (in '000)", x="Ja-Anteil (%)",y="SP-Wähleranteil (%)")
+                 size="Einwohner (in '000)", x="SP-Wähleranteil (%)",y="Ja-Anteil (%)")
 
 ```
 ]
@@ -428,7 +428,7 @@ Zum Beispiel können wir ganz einfach eine interaktive Karte erstellen - mit ein
 
 <img src="lib/shiny.jpg" alt="drawing" width="10%"/>
 
-With Shiny, we can build an R powered Web-Application nurtured by the data on opendata.swiss. Shiny Apps let other people run your R-Code interactively without having to code themselfes.
+Shiny-Apps let others interact with your data and your analysis. We can use Shiny to build an R powered Web-Application on top of the real time vote result data stream.
 
 https://statistikzh.shinyapps.io/zhvote/
 
@@ -448,6 +448,8 @@ code: https://github.com/openZH/zhvote_app
 
 ???
 Wir können eine Shiny - App bauen, die via openda
+
+Shiny Apps let other people run your R-Code interactively without having to code themselfes.
 
 
 Hier sind die Grenzen natürlich durch sie vorgegeben : die User haben Auswahlmöglichkeiten die durch sie vordefiniert sind.
