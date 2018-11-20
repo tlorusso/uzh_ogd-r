@@ -66,29 +66,27 @@ __Open Data can contribute to making data aquisition much less painful__
 
 - machine readable, freely accessible & published in open formats with open license  
 
-- searchable on open data portals (e.g. [opendata.swiss](https://opendata.swiss/de/) / [data.europa.eu](http://data.europa.eu/) / [opentransportdata.swiss](https://opentransportdata.swiss/en/))
+- searchable on open data portals (e.g. [opendata.swiss](https://opendata.swiss/de/) / [data.europa.eu](http://data.europa.eu/) / [opentransportdata.swiss](https://opentransportdata.swiss/en/) / [opendata.cern.ch](http://opendata.cern.ch/))
 
 --
 
-Also, there are many ongoing efforts to make it easier to retrieve data directly / automatically from (open) repositories with the same tools that are used for analysis. Initatives such as __rOpenSci__ contribute heavily to this ("open tools for open science").
+Also, there are many ongoing efforts to make it easier to retrieve data directly from (open) repositories with the same tools that are used for analysis. Initatives such as __rOpenSci__ contribute heavily to this ("open tools for open science").
 
 In the case of __R__ → growing number of (open) data-packages and API-wrappers.
 
-<img src="https://avatars3.githubusercontent.com/u/1200269?v=3&s=280" alt="drawing" width="10%"/>
+<img src="https://avatars3.githubusercontent.com/u/1200269?v=3&s=280" alt="drawing" width="7%"/>
 
 https://ropensci.org/
 
 
 ???
 
-Offene Daten können Abhilfe schaffen hier abhilfe schaffen. Offene Daten die in maschinenlesbarer Form daher kommen - also nicht in Form unstrukturierter pdf oder Bild-dateien, die in offenen Formaten daher kommen - also für deren Auswertung sie nicht zwingend proprietäre SW brauchen, können besser verarbeitet werden. 
+Offene Daten können Abhilfe schaffen. Den offene Daten erfüllen idR eine Reihe von Kriterien, die einem das Leben erleichtern. Sie kommen in maschinenlesbarer Form daher - nicht in Form unstrukturierter pdf Dateien aus denen sie beispielsweise Tabellen mühsam herauskopieren müssen. Sie kommen in offenen Formaten daher, als zum Beispiel einer csv oder json Datei - sie benötigen also keine spezifische, propietäre SW um diese zu verarbeiten. Und sie stehen unter einer offenen Lizenz, die Klarheit schafft was die Nutzung der Daten angeht und es ihnen erlaubt die Daten für ihre Zwecke zu nutzen. Dies ist kein zu vernachlässigender Aspekt: es gibt Daten die frei verfügbar sind im Netz, die sie sich beschaffen können, obwohl sie ggf. gegen Nutzungsbedingungen verstossen, wenn sie diese für Forschungszwecke benutzen.
 
+Offene Daten - insbesondere die die durch den Staat oder durch grössere Unternehmen oder Forschungsinistitutionen pubiliziert werden sind zudem auf Portalen wie opendata.swiss suchbar, die den selben standard anwenden (DCAT) und so eine Art Ökosystem darstellen.
 
-Daten direkt in die Tools bringen, welche Forschende und Entwickler nutzen. Einmal suchen , dann mit demselben Code wiederkehrend dasselbe tun. Das bedeuted, eine Analyse zu einem späteren Zeitpunkt mit aktualisierten Daten ganz einfach repetieren zu können.
+Es gibt Bemühungen , Daten direkt in die Tools bringen, welche Forschende und Entwickler nutzen. Einmal suchen , dann mit demselben Code wiederkehrend dasselbe tun. Das bedeuted, eine Analyse zu einem späteren Zeitpunkt mit aktualisierten Daten ganz einfach repetieren zu können.
 
-Data portals help! --> findability and common formats, metadata-standards (DCAT)
-
-But when you can get data directly into your ... even better!
 
 ---
 # What is `r icon::fa("r-project")`?
@@ -101,7 +99,9 @@ But when you can get data directly into your ... even better!
 The R package - ecosystem comprehends a myriad of packages that extend the functionality of the R language. They range from data-manipulation, data-collection and visualization to modelling, GIS as well as many domain specific applictions.
 
 
-[Field Guide to the R Ecosystem](https://fg2re.sellorm.com/whatisr.html)
+__Field Guide to the R Ecosystem__
+https://fg2re.sellorm.com/whatisr.html
+
 
 
 ???
@@ -115,7 +115,7 @@ class: inverse, center, middle
 <img src="lib/rknife.png" alt="drawing" width="50%"/>
 
 ???
-R - ursprünglich statsitik-prgrammiersprache für datenanylse und modellierung ist mittlerweile ein echt vielfältigeswerkzeug - ähnlich einem Sackmesser.Daten manipulation, modellierung von der Regression zu statistischem lernen, aber auch Daten erheen im netz (web scraping / crawling). Und in gewissen Dingen ist R ziemlich exzellent - zum beisipel wenn es darum geht, die eigenen Resultate direkt aus R heraus in ein publikationsreifes Gefäss einzubetten.
+R - ursprünglich statsitik-prgrammiersprache für datenanylse und modellierung ist mittlerweile ein echt vielfältiges werkzeug - ähnlich einem Sackmesser.Daten manipulation, modellierung von der Regression zu statistischem lernen, aber auch Daten erheen im netz (web scraping / crawling). Und in gewissen Dingen ist R ziemlich exzellent - zum beisipel wenn es darum geht, die eigenen Resultate direkt aus R heraus in ein publikationsreifes Gefäss einzubetten.
 
 Was ist damit gemeint? 
 
@@ -156,21 +156,24 @@ Dies kommt einer demokratisierung von information in form von daten und der werk
 
 Natürlich : nicht immer möglich offene Daten zu nutzen - Einzeldaten, Gesundheitsdaten : Daten die aus datenschutz- oder sicherheitsgründen nicht offen sein können. Auch bei den Formaten, wen man es mit speziellen Datenstrukturen zu tun hat, die mit proprietärer Software ausgwertet werden müssen.
 
-Aber wenn es möglich ist : erlaubt ihnen diese Kombination nie da gewesene r & r und auch zusammenarbeit ohne sich dabei darum kümmern zu müssen wer zugriffsberechtigt ist oder wer eine lizenz von software x hat.
-
-Nun zu einem Beispiel mit offenen Daten des Kantons Zürich. Als Politologie-Absolvent habe ich eines gewählt dass mit besonders am Herzen 
+Aber wenn es möglich ist : erlaubt ihnen diese Kombination nie da gewesene r & r und auch zusammenarbeit über organisationsgrenzen hinweg, ohne sich dabei darum kümmern zu müssen wer zugriffsberechtigt ist oder wer eine lizenz von software x hat.
 
 ---
-class: centre middle
+class: centre, middle
 
 <center><a href="https://twitter.com/RTreb/status/1063717277001023490"><img src="lib/tweet.png" alt="drawing" height="50%"/></a></center>
 
 ---
 class: inverse, center, middle
 
-# R & Open Data 
+# R & Open Government Data 
 
-### Showcase : Real Time Data-Service of popular vote results in the canton Zurich
+### Showcase : Real Time Data-Service of Vote Results in the Canton Zurich
+
+???
+
+Nun haben sie viel grundsätzliches gehört. Über zu einem Beispiel mit offenen Daten des Kantons Zürich. Als Politologie-Absolvent habe ich eines gewählt dass mit besonders am Herzen liegt. Das stat amt ist auch die kantonale Wahl- und Abstimmungszentrale. Die Resultate aus den Gemeinden fliessen am Abstimmungssontag bei uns zusammen, wir plausibilisieren diese und publizieren die Resultate laufend. Über unseren Echtzeitdaten-Service können unseren Datenstrom direkt anzapfen und den Auszählstand in Echzeit abrufen oder in eine Applikation oder einen Live-ticker einbetten. 
+
 
 ---
 The Canton of Zurich provides a web service for real time results on voting sundays.
@@ -190,6 +193,9 @@ data <- data %>%
 
 ```
 
+???
+Der Service ist auf opendata.swiss beschrieben. Für jeden Abstimmungstermin gibt es ein neues Datum / neuen Link. Ich kann das json via R abfragen und es dann in eine R-freundliche Datenstruktur bringen.
+
 ---
 Some data preparation...
 ```{r,message=FALSE,warning=FALSE, message=FALSE, dpi=100, fig.height=2}
@@ -203,6 +209,9 @@ data <-data %>%
   group_by(BFS,VORLAGE_NAME) %>% 
   summarize(ja_anteil=round(sum(JA_STIMMEN_ABSOLUT,na.rm=T)/sum(JA_STIMMEN_ABSOLUT+NEIN_STIMMEN_ABSOLUT,na.rm=T)*100,1))
 ```
+
+???
+Um mit analyse & visualisierung loslegen zu können versehe ich die Abstimmungen noch mit Kurzbezeichnungen und rechne die Resultate auf die Gemeindeebene hoch. Der Webservice liefert diese auf Wahlkreisebene. 
 
 ---
 
@@ -225,6 +234,9 @@ plot
 
 ]
 
+???
+Nun sind wir soweit : wir können die Verteilung der Ja-Anteile anschauen. 
+
 ---
 
 .pull-left[
@@ -232,18 +244,19 @@ plot
 By adding geodata (municipality borders), we can visualize the results on a map.
 
 ```{r,message=FALSE,warning=FALSE}
-# get municipality-borders shapefile from :
-# http://www.web.statistik.zh.ch/cms_basiskarten/gen_Gemeinde_2018/GEN_A4_GEMEINDEN_SEEN_2018_F.zip
+# get municipality-borders shapefile
+downloader::download("http://www.web.statistik.zh.ch/cms_basiskarten/gen_Gemeinde_2017/GEN_A4_GEMEINDEN_SEEN_2017_F.zip", dest="dataset.zip", mode="wb")
 
-#load the municipality boundaries shapefile
-gemeinden<- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2018_F", stringsAsFactors = FALSE) %>% select(BFS,BEZIRK,REGION)
+unzip("dataset.zip")
+
+gemeinden <- sf::read_sf("GEN_A4_GEMEINDEN_SEEN_2017_F" ,stringsAsFactors = FALSE) %>% select(BFS,BEZIRK)
 
 #join geodata to the vote result dataframe
-mapdata <- left_join(data,gemeinden, by=c("BFS")) 
+mapdata <- inner_join(gemeinden,data, by=c("BFS")) 
 
 #map displaying yes-shares per municpality
 map <- ggplot(mapdata)+
-  geom_sf(aes(fill=ja_anteil))+
+  geom_sf(aes(fill=ja_anteil),colour="white")+
   facet_wrap(~VORLAGE_NAME)
 ```
 ]
@@ -258,21 +271,21 @@ map
 
 ]
 
+??? 
+In dem wir uns noch Geodaten mit den Gemeindegrenzen dazuholen können wir die ja-anteile auch auf einer Karte anzeigen.
+
 ---
 
 .pull-left[
 
 ```{r,message=FALSE,warning=FALSE, dpi=125}
-mapdata <- inner_join(gemeinden,data, by=c("BFS"))
 
-mapnew <- ggplot(mapdata)+
-              geom_sf(aes(fill=ja_anteil),color="white")+
-              facet_wrap(~VORLAGE_NAME)+
-              coord_sf(datum = NA)+
-              labs(fill="Ja (in %)")+
-              theme_void()+
-              scale_fill_gradient2(midpoint=50)+
-              guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10))
+mapnew <- map+
+              coord_sf(datum = NA)+ #<<
+              labs(fill="Ja (in %)")+#<<
+              theme_void()+ #<<
+              scale_fill_gradient2(midpoint=50)+ #<<
+              guides(fill = guide_colourbar(barwidth = 0.5, barheight = 10)) #<<
 
 ```
 ]
@@ -295,7 +308,7 @@ glimpse(mapdata)
 
 ```
 
-In R, we can store the actual data as well as the needed geo-information in the same tabular dataframe.   [sf-package](https://r-spatial.github.io/sf/) 
+In R, we can store the actual data as well as the needed geo-information in the same tabular dataframe. The [sf-package](https://r-spatial.github.io/sf/) makes this happen.
 
 ---
 Let's add some data to try to explain the results of a specific vote.
@@ -317,6 +330,10 @@ plotdata <- mapdata %>%
             left_join(bev, by=c("BFS")) %>% 
             mutate_at(vars(sp_anteil,einwohner),as.numeric) 
 ```
+
+???
+Wen wir nun eine Erklärung für die unterschiedlich hohe Zustimmung zu einer Vorlage suchen möchten, können wir uns noch weitere Daten von opendata.swiss holen. Hier laden wir Einwohnerzahlen und SP-Wähleranteile herunter. Ich fügen diese mit den Abstimmungsdaten zusammen.
+
 
 ---
 
@@ -343,12 +360,27 @@ plot
 ```
 ]
 
----
-You can replicate this presentation as well as all the graphics in it by running the code yourself. There is no need to download data by hand and / or bringing it into a form that allows you to check for errors. 
+???
+Sie sehen - auf Gemeindeebene gibt es einen Zusammenhang zwischen Ja zur Initative für bezahlbare Kinderbetreeung und SP-Wähleranteil - war zu erwarten, war ein Links anliegen. 
 
-__Every step, from data-retrieval to the final visualizations, is repeatable AND reproducible.__
+
+---
+class: inverse, middle, center
+
+
+## Every step, from data-retrieval to the final visualizations, is repeatable AND reproducible
 
 --
+
+`r icon::fa("arrow-down")`
+# TRUST
+
+
+???
+Sie können diese Präsentation und die Grafiken darin selbst erstellen in dem Sie einfach den Code nehmen. Sie müssen nichts händisch herunterladen und die Daten noch selber in eine Form bringen, welche es ihnen erlaubt diese auf Fehler zu prüfen. Aber was bringt das? Es erhöht das Vertrauen. Sie können sehen auf welchem Weg ich zum Ziel gekommen bin. An den Schlüssen, die ich daraus ziehe, an denen könnten sie zweifeln. 
+
+---
+
 ## How does this work?
 
 - With [RMarkdown](https://rmarkdown.rstudio.com/), narrative text and code are part of the same document. We can weave elegantly formated output, such as this very presentation, from it.
@@ -415,9 +447,9 @@ https://statistikzh.shinyapps.io/swr_zh/
 
 To use R and | or open Data for analysis helps in terms of:
 
-- reproducibilty
-- repeatability
-- much simpler collaboration 
+#### reproducibilty
+#### repeatability
+#### much simpler collaboration 
 
 R is a very versatile tool. It lets you do a broad variety of things that go far beyond the scope of a statistical programming language.
 
