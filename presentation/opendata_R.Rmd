@@ -52,12 +52,11 @@ Not only hindering academic research, but also the development of innovative dat
 
 ???
 
-Welche Herausforderungen haben Sie zu meistern, wenn Sie als Forschender, als Datenjournalist oder als Privatperson eine Frage haben, die sie anhand von strukturierer, hochqualitativen Informationen beantwortet haben möchten? 
+Welche Herausforderungen haben Sie zu meistern, wenn Sie als Forschende, als Datenjournalisten oder als Privatpersonen eine Frage haben, die sie anhand von strukturierer, hochqualitativer Informationen beantwortet haben möchten? 
 
 Die müssen sich diese beschaffen. 
 
-Aber... es ist nicht immer ganz einfach. Wenn sie Glück haben, arbeit Sie in einem Projekt in dem man Ihnen die Daten schon fix - fertig aufbereitet zur Verfügung stellen kann. 
-
+Aber... es ist nicht immer ganz einfach. Sie können sich glücklich schätzen, wenn Sie in einem Projekt arbeiten in dem man Ihnen die Daten schon fix - fertig aufbereitet zur Verfügung stellen kann. Doch ist dies wahrscheinlich nicht die Regel. Wir kriegen beim Statistischen Amt tagtäglich Anfragen zu den unterschiedlichsten Themen und wissen um die Schwierigkeiten bei der Datenbeschaffung.
 
 ---
 
@@ -81,6 +80,8 @@ https://ropensci.org/
 
 
 ???
+
+Offene Daten können Abhilfe schaffen hier abhilfe schaffen. Offene Daten die in maschinenlesbarer Form daher kommen - also nicht in Form unstrukturierter pdf oder Bild-dateien, die in offenen Formaten daher kommen - also für deren Auswertung sie nicht zwingend proprietäre SW brauchen, können besser verarbeitet werden. 
 
 
 Daten direkt in die Tools bringen, welche Forschende und Entwickler nutzen. Einmal suchen , dann mit demselben Code wiederkehrend dasselbe tun. Das bedeuted, eine Analyse zu einem späteren Zeitpunkt mit aktualisierten Daten ganz einfach repetieren zu können.
