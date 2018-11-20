@@ -458,12 +458,14 @@ Some basic html / css skills nice to have : customizing! The nice thing with R i
 ---
 class: inverse, middle, center
 
-# To use R and | or Open Data for analysis helps in terms of:
+# Conclusion
 
-# Reproducibilty
-# Repeatability
-# Much simpler collaboration 
-# New possibilities
+__To use R and | or Open Data for analysis helps in terms of:__
+
+## Reproducibilty
+## Repeatability
+## Much simpler collaboration 
+## New possibilities
 
 ???
 
@@ -483,9 +485,6 @@ https://www.meetup.com/de-DE/Zurich-R-User-Group/
 ![rusergroup](https://secure.meetupstatic.com/photos/event/c/e/3/0/600_466012784.jpeg)
 
 ---
-#### Are you new to R?
-
-[Getting Started with R](https://support.rstudio.com/hc/en-us/articles/201141096-Getting-Started-with-R)
 
 #### Resources : Open Data & R
 
@@ -496,6 +495,10 @@ https://www.meetup.com/de-DE/Zurich-R-User-Group/
 [Open Data in R and rOpenSci](https://nceas.github.io/oss-lessons/open-data-in-r/open-data-in-R.html)
 
 [The Antarctic/Southern Ocean rOpenSci community](https://ropensci.org/blog/2018/11/13/antarctic/)
+
+#### Are you new to R?
+
+[Getting Started with R](https://support.rstudio.com/hc/en-us/articles/201141096-Getting-Started-with-R)
 
 
 
