@@ -56,7 +56,7 @@ Welche Herausforderungen haben Forschende, Datenjournalisten oder auch Privatper
 
 Sie müssen sich diese Informationen beschaffen. 
 
-Aber... es ist nicht immer ganz einfach. Sie können sich glücklich schätzen, wenn Sie in einem Projekt arbeiten in dem man Ihnen die Daten schon fix - fertig aufbereitet zur Verfügung stellen kann. Doch ist dies wahrscheinlich nicht die Regel. Wir kriegen beim Statistischen Amt tagtäglich Anfragen zu den unterschiedlichsten Themen und wissen um die Schwierigkeiten bei der Datenbeschaffung.
+Aber... es ist nicht immer ganz einfach. Natürlich : es gibt Projekte in denen Forschende Daten fix fertig zur Verfügung gestellt bekommen. Doch ist dies wahrscheinlich nicht die Regel. Wir kriegen beim Statistischen Amt tagtäglich Anfragen zu den unterschiedlichsten Themen und wissen um die Schwierigkeiten bei der Datenbeschaffung.
 
 ---
 
@@ -116,9 +116,7 @@ class: inverse, center, middle
 <img src="lib/rknife.png" alt="drawing" width="50%"/>
 
 ???
-R - ursprünglich statsitik-prgrammiersprache für datenanylse und modellierung ist mittlerweile ein echt vielfältiges werkzeug - ähnlich einem Sackmesser.Daten manipulation, modellierung von der Regression zu statistischem lernen, aber auch Daten erheen im netz (web scraping / crawling). Und in gewissen Dingen ist R ziemlich exzellent - zum beisipel wenn es darum geht, die eigenen Resultate direkt aus R heraus in ein publikationsreifes Gefäss einzubetten.
-
-Was ist damit gemeint? 
+R - ursprünglich statsitik-prgrammiersprache für datenanylse und modellierung ist mittlerweile ein echt vielfältiges werkzeug - ähnlich einem Sackmesser. Man trägt dieses Werkzeug mit sich und muss daher nicht ein messer, korkenzieher und flaschenöfner getrennt mit sich führen. Auf ähnliche Weise erlaubt einem R mit dem erlernen einer Sprache Dinge zu tun, für die man sonst weitere Software nutzen oder andere Sprachen erlernen müsste. Neben dem Kerngeschäft Datenanalyse und Modellierung ist R auch in anderen Bereichen ziemlich exzellent - zum beisipel wenn es darum geht, die eigenen Resultate direkt aus R heraus in ein publikationsreifes Gefäss einzubetten.
 
 ---
 With R you can create fully reproducible documents in various formats, books, presentations, blogposts or even build web-applications that let others explore data interactively.
