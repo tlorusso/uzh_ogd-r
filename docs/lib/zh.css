@@ -122,7 +122,8 @@ a, a > code {
 }
 
 .title-slide h1 {
-  font-family: 'Arial Black','Helvetica';
+  	font-family:"Arial Black", Gadget, Arial, sans-serif;
+	font-weight: 900;
   color: #fff;  
   text-shadow: none;
   line-height: 2em;
@@ -146,7 +147,8 @@ a, a > code {
 */
 
 .title-slide h2 {
-  font-family: 'Arial Black','Helvetica';
+  font-family:"Arial Black", Gadget, Arial, sans-serif;
+ font-weight: 900;
   color: #fff; 
   text-shadow: none;
   line-height: 1em;
