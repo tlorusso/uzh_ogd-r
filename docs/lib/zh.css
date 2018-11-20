@@ -161,7 +161,8 @@ a, a > code {
   text-shadow: none;
   line-height: 1.1em;
   text-align: left;
-  font-family: 'Arial Black','Helvetica';
+  font-family:"Arial Black", Gadget, Arial, sans-serif;
+  font-weight: 900;
   font-size: 24px;
    margin-left: 50px;
 	
