@@ -161,7 +161,7 @@ Aber wenn es möglich ist : erlaubt ihnen diese Kombination nie da gewesene r & 
 ---
 class: centre, middle
 
-<center><a href="https://twitter.com/RTreb/status/1063717277001023490"><img src="lib/tweet.png" alt="drawing" height="50%"/></a></center>
+<center><a href="https://twitter.com/RTreb/status/1063717277001023490"><img src="lib/tweet.PNG" alt="tweet" height="50%"/></a></center>
 
 ---
 class: inverse, center, middle
