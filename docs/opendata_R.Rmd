@@ -30,10 +30,10 @@ Canton of Zurich
 
 ## Slides 
 
-https://openzh.github.io/opendata_and_r
+__https://openzh.github.io/opendata_and_r__
 
 ???
-Dank den ID für Einladung.
+Dank den ID UZH für die Einladung.
 
 Ich bin wissenschaftlicher MA im stat. Amt ZH - ich arbeite tagtäglich mit R, denn wir produzieren ein Grossteil unserer Statistiken, der Visualisierungen die wir veröffentlichen bis hin zu ganzen Publikationen mit R. 
 
