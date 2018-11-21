@@ -367,7 +367,7 @@ plot
 ]
 
 ???
-Ich setze nun die Zustimmung zur Initiative für bezahlbare Kinderbetreuung ins Verhältnis mit dem SP-Wähleranteil : Sie sehen, es scheint da einen Zusammenhang zu geben. Nun könnte ich hier die These aufstellen, dass SP-Wähler der Vorlage eher zugestimmt haben. Was nicht unplausibel ist, es handelt sich hier um ein eher linkes Anliegen. Doch Sie können mich auch kritisieren und sagen, dass hier andere Faktoren entscheidend waren und man das noch mit Individualdaten prüfen müsste (Vor- oder Nachumfragedaten). Die Schlüsse die ich aus der Analyse ziehe, die können sie berechtigterweise hinterfragen. Da aber alles transparent ist - woher die Daten kommen und wie ich diese zusammengestellt und visualisiert habe - ist für sie jederzeit ersichtlich, auf welcher Basis ich zu diesem Schluss gekommen bin und können prüfen, ob das was ich als 'empirische' Grundlage hinzuziehe sauber ist oder ob es fehler gibt.
+Ich setze nun die Zustimmung zur Initiative für bezahlbare Kinderbetreuung ins Verhältnis mit dem SP-Wähleranteil : Sie sehen, es scheint da einen Zusammenhang zu geben. Nun könnte ich hier die These aufstellen, dass SP-Wähler der Vorlage eher zugestimmt haben. Was nicht unplausibel ist, es handelt sich hier um ein Anliegen, dass auch durch SP-kreise gestützt wurde. Doch Sie können mich auch kritisieren und sagen, dass hier andere Faktoren entscheidend waren und man das noch mit Individualdaten prüfen müsste (Vor- oder Nachumfragedaten). Die Schlüsse die ich aus der Analyse ziehe, die können sie berechtigterweise hinterfragen. Da aber alles transparent ist - woher die Daten kommen und wie ich diese zusammengestellt und visualisiert habe - ist für sie jederzeit ersichtlich, auf welcher Basis ich zu diesem Schluss gekommen bin und können prüfen, ob das was ich als 'empirische' Grundlage hinzuziehe sauber ist oder ob es fehler gibt.
 
 ---
 class: inverse, middle, center
@@ -487,6 +487,12 @@ https://opendata.swiss/de/organization/kanton-zuerich
 [Open Data in R and rOpenSci](https://nceas.github.io/oss-lessons/open-data-in-r/open-data-in-R.html)
 
 [The Antarctic/Southern Ocean rOpenSci community](https://ropensci.org/blog/2018/11/13/antarctic/)
+
+#### RMarkdown & Reproducibilty
+
+Garret Grolemund (RStudio), EARL 2018 Keynote on Reproducibilty with RMarkdown
+
+https://www.youtube.com/watch?v=HVlwNayog-k
 
 #### Are you new to R?
 
