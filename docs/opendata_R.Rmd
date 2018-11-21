@@ -56,7 +56,7 @@ Not only hindering academic research, but also the development of innovative dat
 
 ???
 
-Welche Herausforderungen haben Forschende, Datenjournalisten oder auch Privatpersonen eine Frage haben, die sie anhand von strukturierer, hochqualitativer Informationen beantwortet haben möchten? 
+Welche Herausforderungen haben Forschende, Datenjournalisten oder auch Privatpersonen zu meistern, wenn sie eine Frage haben, die sie anhand von strukturierer, hochqualitativer Informationen beantwortet haben möchten? 
 
 Sie müssen sich diese Informationen beschaffen. 
 
@@ -113,14 +113,17 @@ https://fg2re.sellorm.com/whatisr.html
 
 R ist eine open source programmiersprache. Man kann sie interaktiv ausführen, oder auch skripte ablegen die dann ein interpreter ausführt - ähnlich wie bei ruby oder python. 
 
-R hebt sich von diesen sprachen jedoch punkto haupt-einsatzgebiet ab. Obwohl R immer breiter wird in der anwendung, war es ursprünglich ein open-source nachfolger der statistik-sprache S. Somit ist R in erster linie eine programmiersprache für statistischen gebrauch - und dementsprechend weitverbreitet an den universitäten in - statistik-programmen oder data-science lehrgängen weltweit. Für die öffentliche Statistik ist R prädestiniert - ich war diesen Herbst an einer Konferenz zur Nutzung von R in der öff. Statistik : R ist das TOol der wahl.
+R hebt sich von diesen sprachen jedoch punkto haupt-einsatzgebiet ab. Obwohl R immer breiter wird in der anwendung, war es ursprünglich ein open-source nachfolger der statistik-sprache S. Somit ist R in erster linie eine programmiersprache für statistischen gebrauch - und dementsprechend weitverbreitet an den universitäten in - statistik-programmen oder data-science lehrgängen weltweit. Für die öffentliche Statistik ist R prädestiniert, von den grossen Statistikstellen weltweit gibt es kaum eine die kein R nutzt.
+
+Vielseitigkeit: breiter in der Anwendung, dank Packages.
+
 ---
 class: inverse, center, middle
 
 <img src="lib/rknife.png" alt="drawing" width="50%"/>
 
 ???
-R - ursprünglich statsitik-prgrammiersprache für datenanylse und modellierung ist mittlerweile ein echt vielfältiges werkzeug - ähnlich einem Sackmesser. Man trägt dieses Werkzeug mit sich und muss daher nicht ein messer, korkenzieher und flaschenöfner getrennt mit sich führen. Auf ähnliche Weise erlaubt einem R mit dem erlernen einer Sprache Dinge zu tun, für die man sonst weitere Software nutzen oder andere Sprachen erlernen müsste. Neben dem Kerngeschäft Datenanalyse und Modellierung ist R auch in anderen Bereichen ziemlich exzellent - zum beisipel wenn es darum geht, die eigenen Resultate direkt aus R heraus in ein publikationsreifes Gefäss einzubetten.
+R - ursprünglich statsitik-prgrammiersprache für datenanylse und modellierung ist mittlerweile ein echt vielfältiges werkzeug - ähnlich einem Sackmesser. Man trägt dieses Werkzeug mit sich und muss daher nicht ein messer, korkenzieher und flaschenöfner getrennt mit sich führen. Auf ähnliche Weise erlaubt einem R mit dem erlernen einer Sprache Dinge zu tun, für die man sonst weitere Software nutzen oder andere Sprachen erlernen müsste. Neben dem Kerngeschäft Datenanalyse und Modellierung ist R auch in anderen Bereichen ziemlich exzellent - zum beisipel wenn es darum geht, die Resultate einer Analyse direkt aus R heraus in ein publikationsreifes Gefäss einzubetten.
 
 ---
 With R you can create fully reproducible documents in various formats, books, presentations, blogposts or even build web-applications that let others explore data interactively.
@@ -163,7 +166,7 @@ class: centre, middle
 <center><a href="https://twitter.com/RTreb/status/1063717277001023490"><img src="lib/tweet.PNG" alt="tweet" height="50%"/></a></center>
 
 ???
-Beispiel : Arktisforscher die sich zusammenschliessen, Know How austauschen , packages für R erstellen die Daten zum Zustand der Arktis direkt in R bringen - aus den unterschiedlichsten Quellen: Eis, Ozeanographie, Atomsphärische Daten. Daten kommen aus unterschiedlichsten Quellen : EU kopernikus, NASA etc. Über Institutsgrenzen hinweg. 
+Beispiel : Antarktisforscher die sich zusammenschliessen, Know How austauschen , packages für R erstellen die Daten zum Zustand der Antarktis direkt in R bringen - aus den unterschiedlichsten Quellen: Eis, Ozeanographie, Atomsphärische Daten. Daten kommen aus unterschiedlichsten Quellen : EU kopernikus, NASA etc. Über Institutsgrenzen hinweg. 
 
 ---
 class: inverse, center, middle
